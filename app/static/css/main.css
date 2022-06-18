@@ -1,0 +1,102 @@
+#grid {
+    display: grid;
+    max-width: 35rem;
+    margin-bottom: 20px;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+    gap: 5px 5px;
+    grid-auto-flow: row;
+    grid-template-areas:
+        "song-card-0 song-card-1 song-card-2"
+        "song-card-3 song-card-4 song-card-5"
+        "song-card-6 song-card-7 song-card-8";
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+.song-card-0 {
+    grid-area: song-card-0;
+}
+
+.song-card-1 {
+    grid-area: song-card-1;
+}
+
+.song-card-2 {
+    grid-area: song-card-2;
+}
+
+.song-card-3 {
+    grid-area: song-card-3;
+}
+
+.song-card-4 {
+    grid-area: song-card-4;
+}
+
+.song-card-5 {
+    grid-area: song-card-5;
+}
+
+.song-card-6 {
+    grid-area: song-card-6;
+}
+
+.song-card-7 {
+    grid-area: song-card-7;
+}
+
+.song-card-8 {
+    grid-area: song-card-8;
+}
+
+#left {
+    float: left;
+    margin: 10px;
+}
+
+#right {
+    float: right;
+    margin: 10px;
+}
+
+.zoom {
+    transition: transform .2s;
+    margin: 0 auto;
+}
+
+.zoom:hover {
+    transform: scale(1.5);
+}
+
+#editbtn {
+    margin-top: 3px;
+}
+
+#userAvatar {
+    border-radius: 50%;
+}
+
+#footer {
+    width: 100%;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+#post-form{
+    width: 80vw;
+}
+
+#post-form-btn{
+    justify-content: flex-end;
+    margin-right: 1vw;
+}
+
+#soundwave{
+    width: 5vw;
+}

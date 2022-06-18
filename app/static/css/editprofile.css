@@ -1,0 +1,114 @@
+#grid {
+    display: grid;
+    max-width: 35rem;
+    margin-bottom: 20px;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr;
+    gap: 5px 5px;
+    grid-auto-flow: row;
+    grid-template-areas:
+        "song-card-0 song-card-1 song-card-2";
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+.song-card-0 {
+    grid-area: song-card-0;
+}
+
+.song-card-1 {
+    grid-area: song-card-1;
+}
+
+.song-card-2 {
+    grid-area: song-card-2;
+}
+
+
+#left {
+    float: left;
+    margin: 10px;
+}
+
+#right {
+    float: right;
+    margin: 10px;
+}
+
+#s-1 {
+    width: 100%;
+}
+
+.zoom {
+    transition: transform .2s;
+    margin-top: 10px;
+    margin-bottom: 25px;
+}
+
+.zoom:hover {
+    transform: scale(1.5);
+}
+
+#editbtn {
+    margin-top: 3px;
+}
+
+#selectorgrid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+    gap: 5px 5px;
+    grid-auto-flow: row;
+    grid-template-areas:
+        "selector-0 selector-1 selector-2"
+        "selector-3 selector-4 selector-5"
+        "selector-6 selector-7 selector-8";
+    width: 30rem;
+    max-height: auto;
+    margin: 5rem;
+}
+
+#selectionbtn{
+    border-width: 0;
+    padding: 0;
+    aspect-ratio: 1;
+}
+
+.selector-0 {
+    grid-area: selector-0;
+}
+
+.selector-1 {
+    grid-area: selector-1;
+}
+
+.selector-2 {
+    grid-area: selector-2;
+}
+
+.selector-3 {
+    grid-area: selector-3;
+}
+
+.selector-4 {
+    grid-area: selector-4;
+}
+
+.selector-5 {
+    grid-area: selector-5;
+}
+
+.selector-6 {
+    grid-area: selector-6;
+}
+
+.selector-7 {
+    grid-area: selector-7;
+}
+
+.selector-8 {
+    grid-area: selector-8;
+}

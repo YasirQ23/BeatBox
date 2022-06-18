@@ -1,0 +1,68 @@
+{% extends 'components/layout.html' %}
+{% block title %}Profile Editor{% endblock title %}
+{% block css %}
+<link rel="stylesheet" href="/static/css/editprofile.css">
+{% endblock css %}
+{% block js %}
+<script src="/static/Javascript/search.js" defer></script> {% endblock js %}
+{% block content %}
+
+<div class="w3-content" style="max-width:1400px">
+
+  <header class="w3-container w3-center w3-padding-32">
+    <h1><b>{{ "{}".format(current_user.username) }}</b></h1>
+    {% if current_user.bio == None %}
+    {% else %}
+    <p><span class="w3-tag">{{ current_user.bio }}</span></p>
+    {% endif %}
+    <form method="POST">
+      {{ bio_form.hidden_tag() }}
+      <fieldset>
+        {{ bio_form.bio(tag='input', placeholder='New BIO') }}
+      </fieldset>
+      <div class="div m-3">{{ bio_form.submit(id='form-btn') }}</div>
+    </form>
+    <form id="infoform">
+      <label for="artist">Artist</label>
+      <input name="artist" id="artist" type="text" required>
+      <br>
+      <label for="track">Track</label>
+      <input name="track" id="track" type="text" required>
+      <button type="submit" id="submit-btn">Search</button>
+    </form>
+    <form method="POST">
+      {{ grid_form.hidden_tag() }}
+      <fieldset hidden>
+        {{ grid_form.artist(id='grid_artist', placeholder='artist') }}
+        {{ grid_form.track(id='grid_track', placeholder='track') }}
+        {{ grid_form.img(id='grid_img', placeholder='img') }}
+        {{ grid_form.location(id='grid_location', placeholder='location') }}
+        <div id="addbtn" class="div m-3" hidden>{{ grid_form.submit(id='grid-btn') }}</div>
+      </fieldset>
+    </form>
+  </header>
+  <div class="container" id="grid">
+    <div class="song-card-1 zoom">
+      <img id="s-1" class="img-fluid albumcover" src="" onclick="event.preventDefault(); clickEvent(this.id);" />
+    </div>
+  </div>
+  <div class="col" align="center">
+    <h3 id="currently" class="text-center" hidden></h3>
+    <button class="btn btn-info row" id="stopbtn" onclick="event.preventDefault(); stopSong();" disabled hidden>Click
+      the album cover to play/pause.</button>
+  </div>
+  <div class="row justify-content-center">
+    <div class="container" id="selectorgrid" hidden>
+      <div id="selectionbtn" class="selector-0 btn" onclick="event.preventDefault(); gridSelection(0);"><img src={{ grid[0].track_img }} alt=""></div>
+      <div id="selectionbtn" class="selector-1 btn" onclick="event.preventDefault(); gridSelection(1);"><img src={{ grid[1].track_img }}  alt=""></div>
+      <div id="selectionbtn" class="selector-2 btn" onclick="event.preventDefault(); gridSelection(2);"><img src={{ grid[2].track_img }}  alt=""></div>
+      <div id="selectionbtn" class="selector-3 btn" onclick="event.preventDefault(); gridSelection(3);"><img src={{ grid[3].track_img }}  alt=""></div>
+      <div id="selectionbtn" class="selector-4 btn" onclick="event.preventDefault(); gridSelection(4);"><img src={{ grid[4].track_img }}  alt=""></div>
+      <div id="selectionbtn" class="selector-5 btn" onclick="event.preventDefault(); gridSelection(5);"><img src={{ grid[5].track_img }}  alt=""></div>
+      <div id="selectionbtn" class="selector-6 btn" onclick="event.preventDefault(); gridSelection(6);"><img src={{ grid[6].track_img }}  alt=""></div>
+      <div id="selectionbtn" class="selector-7 btn" onclick="event.preventDefault(); gridSelection(7);"><img src={{ grid[7].track_img }}  alt=""></div>
+      <div id="selectionbtn" class="selector-8 btn" onclick="event.preventDefault(); gridSelection(8);"><img src={{ grid[8].track_img }}  alt=""></div>
+    </div>
+  </div>
+</div>
+{% endblock content %}

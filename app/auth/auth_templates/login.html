@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% block title %}Sign-In{% endblock title %}
+{% block content %}
+
+<div class="wrapper">
+    <div class="container">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        <img id="signinimg" src="/auth_static/images/Signin.png" style="margin-top: 5.3rem;" alt="">
+        {% else %}
+        <img id="signinimg" src="/auth_static/images/Signin.png" alt="">
+        {% endif %}
+        {% endwith %}
+        <div class="form-data">
+            <div class="container-fluid d-flex justify-content-center">
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                {% for category, message in messages %}
+                <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                {% endfor %}
+                {% endif %}
+                {% endwith %}
+                </div>
+            <form method="POST">
+                {{ form.hidden_tag() }}
+                    <div class="logo">
+                        <h1>Spotify - Myspace</h1>
+                    </div>
+                    <fieldset>
+                        {{ form.username(tag='input', placeholder='Username') }}
+                    </fieldset>
+
+                    <fieldset>
+                        {{ form.password(tag='input', placeholder='Password') }}
+                    </fieldset>
+                {{ form.submit(id='form-btn') }}
+                <span class="has-separator">Or</span>
+                <a class="password-reset" href="#">Forgot password?</a>
+            </form>
+            <div class="sign-up">
+                Don't have an account? <a href="{{ url_for('auth.register') }}">Sign up</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

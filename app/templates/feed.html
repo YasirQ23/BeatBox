@@ -1,0 +1,75 @@
+{% extends 'components/layout.html' %}
+{% block title %}Home{% endblock title %}
+{% block css %}
+<link rel="stylesheet" href="/static/css/main.css">
+{% endblock css %}
+{% block js %}
+<script src="/static/Javascript/main.js" defer></script> {% endblock js %}
+{% block content %}
+<nav class="navbar navbar-light bg-light justify-content-between">
+  <span id="soundwave" style="font-size:30px" class="bi bi-soundwave ml-2"></span>
+  <form class="form-inline">
+    <button type="button" class="btn btn-primary ml-2 mb-2" data-toggle="button" aria-pressed="false"
+      autocomplete="off">
+      All
+    </button>
+    <button type="button" class="btn btn-primary ml-2 mb-2" data-toggle="button" aria-pressed="false"
+      autocomplete="off">
+      Following
+    </button>
+    <div class="input-group ml-2 mb-2">
+      <div class="input-group-prepend">
+        <span class="input-group-text" id="basic-addon1"><i style="font-size:18px" class="fa fa-search"
+            aria-hidden="true"></i></span>
+      </div>
+      <input type="text" class="form-control" placeholder="Username" aria-label="Username"
+        aria-describedby="basic-addon1">
+    </div>
+  </form>
+</nav>
+<div class="w3-content" style="max-width:1400px">
+  <div class="w3-row">
+    {% for post in posts %}
+    <div class="w3-card-4 w3-margin w3-white">
+      <div class="w3-container pt-3">
+        <h3><a class="text-dark" href="{{(url_for('user', username=post.author.username))}}"><img id="userAvatar"
+              src="{{ post.author.avatar(34) }}"> {{ post.author.username }}</a></h3>
+      </div>
+      <div class="w3-container">
+        <p>{{ post.body }}</p>
+        <div class="w3-row">
+          <div id="left" class="column"><b>Likes </b> <span class="w3-badge">2</span></div>
+          <div id="left" class="column"><b>Comments </b> <span class="w3-badge">2</span></div>
+          <div id="right" class="column"><span class="w3-opacity">{{ (post.timestamp|string)[5:10] }} @ {{
+              (post.timestamp|string)[10:16] }}</span></div>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+
+    <hr>
+    <div class="w3-card-4 w3-margin w3-white">
+      <div class="w3-container pt-3">
+        <h3><b><img id="userAvatar" src="{{ user.avatar(34) }}"> {{ user.username }} </b></h3>
+      </div>
+      <div class="w3-container">
+        <div class="row justify-content-center">
+          <form action="" method="post">
+            {{ post_form.hidden_tag() }}
+            <p>
+              <br>
+              {{ post_form.post(id="post-form", placeholder="What's happening?", cols=36, rows=4) }}<br>
+              {% for error in post_form.post.errors %}
+              <span style="color: red;">[{{ error }}]</span>
+              {% endfor %}
+            <div class="row" id="post-form-btn">
+              {{ post_form.submit() }}
+            </div>
+            </p>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}
