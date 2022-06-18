@@ -1,0 +1,15 @@
+<div class="w3-card-4 w3-margin w3-white">
+    <div class="w3-container pt-3">
+      <h3><a class="text-dark" href="{{(url_for('user', username=post.author.username))}}"><img id="userAvatar"
+            src="{{ post.author.avatar(34) }}"> {{ post.author.username }}</a></h3>
+    </div>
+    <div class="w3-container">
+      <p>{{ post.body }}</p>
+      <div class="w3-row">
+        <div id="left" class="column"><b>Likes </b> <span class="w3-badge">2</span></div>
+        <div id="left" class="column"><b>Comments </b> <span class="w3-badge">2</span></div>
+        <div id="right" class="column"><span class="w3-opacity">{{ (post.timestamp|string)[5:10] }} @ {{
+            (post.timestamp|string)[10:16] }}</span></div>
+      </div>
+    </div>
+  </div>
