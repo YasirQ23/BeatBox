@@ -1,3 +1,5 @@
+orignaltext = document.getElementById(`s-1`).onclick
+
 const getAuth = async () => {
     const clientID = 'f74d1c3e2d2b4b118fc5462de4b042a3';
     const clientSecret = '685a93cc6572498d98045e4f4c2574ce';
@@ -33,21 +35,48 @@ const getData = async (x, y) => {
         });
     data = await data.json();
     music = data
-    createTile(data);
+    if (data.tracks.items.length == 0){
+        selectorgrid.hidden = true;
+        imagelocation = document.getElementById(`s-1`)
+        imagelocation.src = 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/1024px-No_image_available.svg.png'
+        currently.innerHTML = `Sorry, but nothing matched that artist and track name. Please try again with a different artist or track!`
+        currently.hidden = false;
+        stopbtn.hidden = true;
+    } else{
+        createTile(data);
+    }
 };
 
 const createTile = (data) => {
-    try {
-        image = data.tracks.items[0].album.images[0].url
-        imagelocation = document.getElementById(`s-1`)
-        imagelocation.src = image
-        saveSongDB();
-    }
-    catch (err) {
+    originalText = document.getElementById('s-1').onclick
+    if (music.tracks.items[0].preview_url == null) {
         imagelocation = document.getElementById(`s-1`)
         imagelocation.src = 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/1024px-No_image_available.svg.png'
+        currently.innerHTML = `${music.tracks.items[0].artists[0].name} - ${music.tracks.items[0].name} is unavailable due to copyright restrictions`
+        currently.hidden = false;
+        selectorgrid.hidden = true;
+        document.getElementById(`s-1`).onclick = ''
+        stopbtn.hidden = true;
+    } else {
+        try {
+            image = data.tracks.items[0].album.images[0].url
+            imagelocation = document.getElementById(`s-1`)
+            imagelocation.src = image
+            document.getElementById(`s-1`).onclick = orignaltext
+            saveSongDB();
+        }
+        catch (err) {
+            imagelocation = document.getElementById(`s-1`)
+            imagelocation.src = 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/1024px-No_image_available.svg.png'
+            currently.innerHTML = `${music.tracks.items[0].artists[0].name} - ${music.tracks.items[0].name} is unavailable due to copyright restrictions`
+            currently.hidden = false;
+            selectorgrid.hidden = true;
+            document.getElementById(`s-1`).onclick = ''
+            stopbtn.hidden = true;
+        }
     }
 };
+
 
 let form = document.getElementById('infoform');
 
@@ -59,7 +88,9 @@ form.addEventListener('submit', (event) => {
     data = getData(x, y);
     stopbtn.hidden = false;
     addbtn.hidden = false;
-    selectorgrid.hidden =false;
+    selectorgrid.hidden = false;
+    currently.hidden = false;
+    stopSong();
 });
 
 let music;
@@ -74,8 +105,6 @@ let clickEvent = () => {
         if (clicked == playing.src) {
             if (playing.paused) {
                 playing.play();
-                // stopbtn.innerHTML = 'Stop Music';
-                // stopbtn.disabled = false;
                 currently.innerHTML = `Playing: ${music.tracks.items[0].artists[0].name} - ${music.tracks.items[0].name}`
                 currently.hidden = false;
                 return
@@ -91,27 +120,26 @@ let clickEvent = () => {
 
     playing.play();
     // stopbtn.innerHTML = 'Stop Music';
-    stopbtn.disabled = false;
-    currently.innerHTML =`Playing: ${music.tracks.items[0].artists[0].name} - ${music.tracks.items[0].name}`
+    currently.innerHTML = `Playing: ${music.tracks.items[0].artists[0].name} - ${music.tracks.items[0].name}`
     currently.hidden = false;
 };
 
 
 let stopSong = () => {
     playing.pause();
-    // stopbtn.innerHTML = 'Click the album cover to play/pause.'
-    stopbtn.disabled = true;
     currently.hidden = true;
 };
 
-let saveSongDB = () =>{
+let saveSongDB = () => {
     document.getElementById("grid_artist").value = music.tracks.items[0].artists[0].name;
     document.getElementById("grid_track").value = music.tracks.items[0].name;
-    document.getElementById("grid_img").value =  music.tracks.items[0].album.images[0].url;
+    document.getElementById("grid_img").value = music.tracks.items[0].album.images[0].url;
 }
 
-let gridSelection = (input) =>{
+let gridSelection = (input) => {
     document.getElementById("grid_location").value = input
     document.getElementById("grid-btn").click()
 }
+
+
 

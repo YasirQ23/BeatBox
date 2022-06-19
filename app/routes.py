@@ -18,6 +18,7 @@ def profile_editor():
             user = User.query.get(current_user.id)
             user.bio = bio_form.bio.data
             db.session.commit()
+            flash('Bio Edit Successful!')
             return redirect(url_for('user', username=current_user.username))
         if grid_form.validate_on_submit():
             tile = Grid.query.filter_by(
@@ -27,6 +28,7 @@ def profile_editor():
             tile.track_img = grid_form.data['img']
             tile.grid_position = grid_form.data['location']
             db.session.commit()
+            flash('Grid Edit Successful!')
             return redirect(url_for('user', username=current_user.username))
     return render_template('profile_editor.html', bio_form=bio_form, grid_form=grid_form, grid=grid)
 
@@ -36,8 +38,14 @@ def user(username):
     post_form = PostForm()
     pg_owner= User.query.filter_by(username=username).first()
     posts = Post.query.filter_by(user_id=pg_owner.id).order_by(Post.timestamp.desc()).all()
-    grid = Grid.query.filter_by(user_id=current_user.id).order_by(
+    grid = Grid.query.filter_by(user_id=pg_owner.id).order_by(
         Grid.grid_position).all()
+    artist_track = []
+    for i in range(9):
+        if grid[i].artist != None:
+            artist_track.append(grid[i].artist)
+            artist_track.append(grid[i].track)
+    print(artist_track)
     if post_form.validate_on_submit():
         post = Post(body=post_form.post.data, user_id=current_user.id)
         db.session.add(post)
@@ -46,7 +54,7 @@ def user(username):
         return redirect(url_for('user', username=current_user.username))
     user = User.query.filter_by(username=username).first_or_404()
     follow_form = FollowForm()
-    return render_template('user.html', user=user, posts=posts, follow_form=follow_form, post_form=post_form, grid=grid)
+    return render_template('user.html', user=user, posts=posts, follow_form=follow_form, post_form=post_form, artist_track=artist_track, grid=grid)
 
 
 @app.before_request
