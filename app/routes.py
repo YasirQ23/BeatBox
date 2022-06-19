@@ -34,7 +34,10 @@ def profile_editor():
 @app.route('/user/<username>', methods=['GET', 'POST'])
 def user(username):
     post_form = PostForm()
-    posts = current_user.followed_posts().all()
+    pg_owner= User.query.filter_by(username=username).first()
+    posts = Post.query.filter_by(user_id=pg_owner.id).order_by(Post.timestamp.desc()).all()
+    grid = Grid.query.filter_by(user_id=current_user.id).order_by(
+        Grid.grid_position).all()
     if post_form.validate_on_submit():
         post = Post(body=post_form.post.data, user_id=current_user.id)
         db.session.add(post)
@@ -43,7 +46,7 @@ def user(username):
         return redirect(url_for('user', username=current_user.username))
     user = User.query.filter_by(username=username).first_or_404()
     follow_form = FollowForm()
-    return render_template('user.html', user=user, posts=posts, follow_form=follow_form, post_form=post_form)
+    return render_template('user.html', user=user, posts=posts, follow_form=follow_form, post_form=post_form, grid=grid)
 
 
 @app.before_request

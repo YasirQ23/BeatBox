@@ -45,7 +45,7 @@
     </header>
     <div class="container" id="grid">
         {% for i in range(9) %}
-        <div class="song-card-{{ i }} zoom"><img id="s-{{ i }}" src=""></img></div>
+        <div class="song-card-{{ i }} zoom"><img id="s-{{ i }}" src={{ grid[i].track_img }}></img></div>
         {% endfor %}
     </div>
     <div class="w3-row">
