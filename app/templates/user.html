@@ -7,7 +7,7 @@
 <script src="/static/Javascript/main.js" defer></script> {% endblock js %}
 {% block content %}
 <script type="text/javascript">
-    myVar = {{ artist_track | tojson }}
+    artists_tracks = {{ artist_track | tojson }}
 </script>
 
 
@@ -63,7 +63,12 @@
         {% for post in posts %}
         {% include 'components/posts.html' %}
         {% endfor %}
-
+        {% if prev_url %}
+        <a href="{{ prev_url }}">Newer posts</a>
+        {% endif %}
+        {% if next_url %}
+        <a href="{{ next_url }}">Older posts</a>
+        {% endif %}
         <hr>
         <div class="w3-card-4 w3-margin w3-white">
             <div class="w3-container pt-3">

@@ -33,14 +33,14 @@ const getData = async (x, y) => {
         });
     data = await data.json();
     music = data
-    if (data.tracks.items.length == 0){
+    if (data.tracks.items.length == 0) {
         selectorgrid.hidden = true;
         imagelocation = document.getElementById(`s-1`)
         imagelocation.src = 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/1024px-No_image_available.svg.png'
         currently.innerHTML = `Sorry, but nothing matched that artist and track name. Please try again with a different artist or track!`
         currently.hidden = false;
         stopbtn.hidden = true;
-    } else{
+    } else {
         createTile(data);
     }
 };
@@ -76,7 +76,6 @@ const createTile = (data) => {
         }
     }
 };
-
 
 let form = document.getElementById('infoform');
 
