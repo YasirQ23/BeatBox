@@ -1,8 +1,6 @@
-orignaltext = document.getElementById(`s-1`).onclick
-
 const getAuth = async () => {
-    const clientID = 'f74d1c3e2d2b4b118fc5462de4b042a3';
-    const clientSecret = '685a93cc6572498d98045e4f4c2574ce';
+    const clientID = '';
+    const clientSecret = '';
     const encodedString = btoa(clientID + ':' + clientSecret);
     const response = await fetch('https://accounts.spotify.com/api/token',
         {
@@ -46,6 +44,8 @@ const getData = async (x, y) => {
         createTile(data);
     }
 };
+
+orignaltext = document.getElementById(`s-1`).onclick;
 
 const createTile = (data) => {
     originalText = document.getElementById('s-1').onclick
@@ -134,12 +134,12 @@ let saveSongDB = () => {
     document.getElementById("grid_artist").value = music.tracks.items[0].artists[0].name;
     document.getElementById("grid_track").value = music.tracks.items[0].name;
     document.getElementById("grid_img").value = music.tracks.items[0].album.images[0].url;
-}
+};
 
 let gridSelection = (input) => {
     document.getElementById("grid_location").value = input
     document.getElementById("grid-btn").click()
-}
+};
 
 
 
