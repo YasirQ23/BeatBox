@@ -121,7 +121,7 @@ def unfollow(username):
 # Route for Feed page so public can find users to follow!
 
 
-@app.route('/explore')
+@app.route('/explore', methods=['GET', 'POST'])
 @login_required
 def explore():
     user = User.query.filter_by(username=current_user.username).first_or_404()
@@ -132,5 +132,19 @@ def explore():
         db.session.add(post)
         db.session.commit()
         flash('Post Successful!')
-        return redirect(url_for('user', username=current_user.username))
+        return redirect(url_for('explore', username=current_user.username))
     return render_template('feed.html', title='Explore', posts=posts, user=user, post_form=post_form)
+
+@app.route('/followingfeed', methods=['GET', 'POST'])
+@login_required
+def following():
+    user = User.query.filter_by(username=current_user.username).first_or_404()
+    posts = User.followed_posts(current_user)
+    post_form = PostForm()
+    if post_form.validate_on_submit():
+        post = Post(body=post_form.post.data, user_id=current_user.id)
+        db.session.add(post)
+        db.session.commit()
+        flash('Post Successful!')
+        return redirect(url_for('following', username=current_user.username))
+    return render_template('following_feed.html', title='Explore', posts=posts, user=user, post_form=post_form)

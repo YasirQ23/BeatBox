@@ -14,6 +14,7 @@
     <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css'>
     {% block css %}{% endblock css %}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
     {% block js %}{% endblock js %}
     <style>
         body,
@@ -41,11 +42,12 @@
             <div id="editbtn" class="col-2 p-0" style="text-align:center"><a class="navbar-brand text-light mr-0"
                     href="{{ url_for('profile_editor') }}"><i class='fas fa-border-none' style='font-size:24px'></i></a>
             </div>
+            <div id="editbtn" class="col-2 p-0" style="text-align:center"><a class="navbar-brand text-light mr-0"
+                    href="{{ url_for('explore') }}"><span class="material-symbols-outlined" style='font-size:24px'>public
+            </span></a>
+            </div>
             <div class="col-2 p-0" style="text-align:center"><a class="navbar-brand text-light mr-0"
-                href="{{ url_for('explore') }}"><span id="soundwaveFoot" style="font-size:24px" class="bi bi-soundwave"></a></div>
-            <div class="col-2 p-0" style="text-align:center"><a class="navbar-brand text-light mr-0"
-                    href="{{ url_for('explore') }}"><i style="font-size:20px" class="fa fa-search"
-                        aria-hidden="true"></i></a></div>
+                    href="{{ url_for('following') }}"><i style="font-size:20px" class="fas fa-user-friends"></i></a></div>
             <div class="col-2 p-0" style="text-align:center"><a class="navbar-brand text-light mr-0"
                     href="{{ url_for('auth.logout') }}"><i style="font-size:20px" class="fa">&#xf08b;</i></a></div>
         </div>
