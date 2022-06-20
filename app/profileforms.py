@@ -4,8 +4,8 @@ from wtforms.validators import DataRequired, Length
 
 
 class BioForm(FlaskForm):
-    bio = StringField('BIO', validators=[DataRequired()])
-    submit = SubmitField('Change BIO')
+    bio = TextAreaField('BIO', validators=[DataRequired(), Length(min=1, max=280)])
+    submit = SubmitField('Save Bio Changes')
 
 
 class GridForm(FlaskForm):

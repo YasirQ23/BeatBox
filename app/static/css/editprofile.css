@@ -112,3 +112,34 @@ img {
 .selector-8 {
     grid-area: selector-8;
 }
+
+#submit-btn{
+    background-color: #f1f1f1;
+    border-width: 1px;
+    border-radius: 10px;
+    border-color: black;
+    margin-top: 4vh;
+}
+
+#search-col{
+    flex-grow: 0;
+}
+
+#bio-submit{
+    background-color: #f1f1f1;
+    border-width: 1.5px;
+    border-radius: 10px;
+    border-color: black;
+}
+
+#stopbtn{
+    background-color: #f1f1f1;
+    border-width: 1.5px;
+    border-radius: 10px;
+    border-color: black;
+    color: black;
+}
+
+.disabled{
+    color: black;
+}

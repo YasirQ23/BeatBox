@@ -49,7 +49,6 @@ def user(username):
         if grid[i].artist != None:
             artist_track.append(grid[i].artist)
             artist_track.append(grid[i].track)
-    print(artist_track)
     if post_form.validate_on_submit():
         post = Post(body=post_form.post.data, user_id=current_user.id)
         db.session.add(post)
