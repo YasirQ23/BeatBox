@@ -20,13 +20,16 @@
     {% for post in posts %}
     {% include '/components/posts.html' %}
     {% endfor %}
-    {% if prev_url %}
-    <a href="{{ prev_url }}">Newer posts</a>
-    {% endif %}
-    {% if next_url %}
-    <a href="{{ next_url }}">Older posts</a>
-    {% endif %}
   </div>
+  <hr>
+  <div class="row justify-content-center">
+    {% if next_url %}
+    <a class="btn" href="{{ next_url }}" role="button">Older Posts</a>
+    {% endif %}
+    {% if prev_url %}
+    <a class="btn" href="{{ prev_url }}" role="button">Newer Posts</a>
+    {% endif %}
+</div>
   <hr>
 </div>
 <div class="w3-card-4 w3-margin w3-white">

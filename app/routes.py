@@ -160,3 +160,11 @@ def following():
         return redirect(url_for('following'))
     return render_template('following_feed.html', title='Explore', posts=posts.items, user=user, post_form=post_form, next_url=next_url,
                            prev_url=prev_url)
+
+@app.route('/delete/<id>')
+def removePost(id):
+    post = Post.query.filter_by(id=id[:36]).first()
+    db.session.delete(post)
+    db.session.commit()
+    flash(f'Post Removed', 'danger')
+    return redirect(url_for('user', username=current_user.username))
