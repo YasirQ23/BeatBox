@@ -2,7 +2,7 @@
   <div class="w3-container pt-3">
     <h3><a class="text-dark" href="{{(url_for('user', username=post.author.username))}}"><img id="userAvatar"
           src="{{ post.author.avatar(34) }}"> {{ post.author.username }}</a>
-      {% if post.author.id == current_user.id %}
+      {% if post.author.id == current_user.id or post.location_id == current_user.id %}
       <a href="{{(url_for('removePost', id=post.id))}}"> <button type="button" class="close" aria-label="Close">
           <span style="font-size:26px" aria-hidden="true">&times;</span>
         </button></a>
@@ -13,9 +13,12 @@
     <div class="row ml-2">{{ post.body }}</div>
     <div class="w3-row">
       <div id="left" class="column"><b>
-        <a href="{{(url_for('likePost', id=post.id))}}"><span class="material-symbols-outlined" style='font-size:20px'>
-              favorite
-            </span></a></b> <span class="w3-badge"></span></div>
+          {% if post.id in liked_posts %}
+          <a href="{{(url_for('likePost', id=post.id))}}"><i class="fa-solid fa-heart"></i> </a>
+          {% else %}
+          <a href="{{(url_for('likePost', id=post.id))}}"><i class="fa-regular fa-heart"></i></a>
+          {% endif %}
+        </b><span class="w3-badge">{{ post.likes }}</span></div>
       <div id="left" class="column"><b>Comments </b> <span class="w3-badge">2</span></div>
       <div id="right" class="column"><span class="w3-opacity">{{ (post.timestamp|string)[5:10] }} @ {{
           (post.timestamp|string)[10:16] }}</span></div>

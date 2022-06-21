@@ -37,7 +37,7 @@ class User(db.Model, UserMixin):
     bio = db.Column(db.String(255))
     grid = db.relationship('Grid', backref='user', lazy=True)
     posts = db.relationship('Post', backref='author', lazy='dynamic')
-    likes = db.relationship('Likes', backref='Liker', lazy='dynamic')
+    likes = db.relationship('Likes', backref='liker', lazy='dynamic')
     followed = db.relationship(
         'User', secondary=followers,
         primaryjoin=(followers.c.follower_id == id),
@@ -100,14 +100,19 @@ class Post(db.Model, UserMixin):
     body = db.Column(db.String(140))
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     location_id = db.Column(db.String(40), nullable=False)
+    likes = db.Column(db.Integer, nullable=False)
+    comments = db.Column(db.Integer, nullable=False)
     user_id = db.Column(db.String(40), db.ForeignKey(
         'user.id'), nullable=False)
+    liked = db.relationship('Likes', backref='Post', lazy='dynamic')
 
     def __init__(self, user_id, body, location_id):
         self.id = str(uuid4())
         self.user_id = user_id
         self.body = body
         self.location_id = location_id
+        self.likes = 0
+        self.comments = 0
 
     def __repr__(self):
         return '<Post {}>'.format(self.body)
@@ -115,13 +120,13 @@ class Post(db.Model, UserMixin):
 
 class Likes(db.Model, UserMixin):
     id = db.Column(db.String(40), primary_key=True)
-    location_id = db.Column(db.String(40), nullable=False)
+    post_id = db.Column(db.String(40), db.ForeignKey('post.id'), nullable=False)
     user_id = db.Column(db.String(40), db.ForeignKey('user.id'), nullable=False)
 
-    def __init__(self,user_id, location_id):
+    def __init__(self,user_id, post_id):
         self.id = str(uuid4())
         self.user_id = user_id
-        self.location_id = location_id
+        self.post_id = post_id
 
 
 # class Comments(db.Model, UserMixin):

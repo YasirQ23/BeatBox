@@ -5,6 +5,7 @@ from flask_login import current_user, login_required
 from app.profileforms import BioForm, GridForm, FollowForm, PostForm
 from datetime import datetime
 
+
 @app.route('/profile-editor', methods=['GET', 'POST'])
 @login_required
 def profile_editor():
@@ -33,7 +34,6 @@ def profile_editor():
 
 
 @app.route('/user/<username>', methods=['GET', 'POST'])
-
 def user(username):
     session['url'] = url_for('user', username=username)
     post_form = PostForm()
@@ -54,15 +54,19 @@ def user(username):
         else:
             artist_track.append([0, 0])
     if post_form.validate_on_submit():
-        post = Post(body=post_form.post.data, user_id=current_user.id, location_id=pg_owner.id)
+        post = Post(body=post_form.post.data,
+                    user_id=current_user.id, location_id=pg_owner.id)
         db.session.add(post)
         db.session.commit()
         flash('Post Successful!')
         return redirect(url_for('user', username=username))
     user = User.query.filter_by(username=username).first_or_404()
     follow_form = FollowForm()
-    return render_template('user.html', user=user, posts=posts.items, follow_form=follow_form, post_form=post_form, artist_track=artist_track, grid=grid, next_url=next_url,
-                           prev_url=prev_url)
+    loadedposts = [i.id for i in posts.items]
+    like = Likes.query.filter(Likes.post_id.in_(
+        loadedposts)).filter_by(user_id=current_user.id).all()
+    liked_posts = [i.post_id for i in like]
+    return render_template('user.html', user=user, posts=posts.items, follow_form=follow_form, post_form=post_form, artist_track=artist_track, grid=grid, next_url=next_url, prev_url=prev_url, liked_posts=liked_posts)
 
 
 @app.before_request
@@ -142,14 +146,17 @@ def explore():
     prev_url = url_for('explore', page=posts.prev_num) \
         if posts.has_prev else None
     post_form = PostForm()
+    loadedposts = [i.id for i in posts.items]
+    like = Likes.query.filter(Likes.post_id.in_(
+        loadedposts)).filter_by(user_id=current_user.id).all()
+    liked_posts = [i.post_id for i in like]
     if post_form.validate_on_submit():
         post = Post(body=post_form.post.data, user_id=current_user.id)
         db.session.add(post)
         db.session.commit()
         flash('Post Successful!')
         return redirect(url_for('explore'))
-    return render_template('feed.html', title='Explore', posts=posts.items, user=user, post_form=post_form, next_url=next_url,
-                           prev_url=prev_url)
+    return render_template('feed.html', title='Explore', posts=posts.items, user=user, post_form=post_form, next_url=next_url, prev_url=prev_url, liked_posts=liked_posts)
 
 
 @app.route('/followingfeed', methods=['GET', 'POST'])
@@ -165,35 +172,48 @@ def following():
     prev_url = url_for('following', page=posts.prev_num) \
         if posts.has_prev else None
     post_form = PostForm()
+    loadedposts = [i.id for i in posts.items]
+    like = Likes.query.filter(Likes.post_id.in_(
+        loadedposts)).filter_by(user_id=current_user.id).all()
+    liked_posts = [i.post_id for i in like]
     if post_form.validate_on_submit():
         post = Post(body=post_form.post.data, user_id=current_user.id)
         db.session.add(post)
         db.session.commit()
         flash('Post Successful!')
         return redirect(url_for('following'))
-    return render_template('following_feed.html', title='Explore', posts=posts.items, user=user, post_form=post_form, next_url=next_url,
-                           prev_url=prev_url)
+    return render_template('following_feed.html', title='Explore', posts=posts.items, user=user, post_form=post_form, next_url=next_url, prev_url=prev_url, liked_posts=liked_posts)
 
 
 @app.route('/delete/<id>')
 @login_required
 def removePost(id):
     post = Post.query.filter_by(id=id[:36]).first()
-    if post.user_id == current_user.id:
+    if post.user_id == current_user.id or post.location_id == current_user.id:
         db.session.delete(post)
         db.session.commit()
         flash(f'Post Removed', 'danger')
         return redirect(session['url'])
     else:
-        flash(f'You cannot remove posts that you didnt create.', 'danger')
+        flash(f'Sorry, You can only remove posts which you have created or are on your page.', 'danger')
         return redirect(url_for('user', username=current_user.username))
 
 
 @app.route('/like/<id>')
 @login_required
 def likePost(id):
-    like = Likes(current_user.id,id)
-    db.session.add(like)
-    db.session.commit()
-    flash(f'Post Liked')
+    like = Likes(current_user.id, id)
+    post = Post.query.filter_by(id=id).first()
+    if Likes.query.filter_by(user_id=current_user.id).filter_by(post_id=post.id).first():
+        like = Likes.query.filter_by(
+            user_id=current_user.id).filter_by(post_id=post.id).first()
+        post.likes -= 1
+        db.session.delete(like)
+        db.session.commit()
+        flash(f'Post Unliked')
+    else:
+        post.likes += 1
+        db.session.add(like)
+        db.session.commit()
+        flash(f'Post Liked')
     return redirect(session['url'])
