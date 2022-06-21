@@ -1,6 +1,6 @@
 from app import app
-from app.models import User, db, Grid, Post
-from flask import Blueprint, render_template, request, redirect, url_for, flash
+from app.models import User, db, Grid, Post, Likes
+from flask import Blueprint, render_template, request, redirect, url_for, flash, session
 from flask_login import current_user, login_required
 from app.profileforms import BioForm, GridForm, FollowForm, PostForm
 from datetime import datetime
@@ -31,12 +31,15 @@ def profile_editor():
             return redirect(url_for('user', username=current_user.username))
     return render_template('profile_editor.html', bio_form=bio_form, grid_form=grid_form, grid=grid)
 
+
 @app.route('/user/<username>', methods=['GET', 'POST'])
+
 def user(username):
+    session['url'] = url_for('user', username=username)
     post_form = PostForm()
     page = request.args.get('page', 1, type=int)
     pg_owner = User.query.filter_by(username=username).first()
-    posts = Post.query.filter_by(user_id=pg_owner.id).order_by(Post.timestamp.desc()).paginate(
+    posts = Post.query.filter_by(location_id=pg_owner.id).order_by(Post.timestamp.desc()).paginate(
         page, app.config['POSTS_PER_PAGE'], False)
     next_url = url_for('user', username=current_user.username, page=posts.next_num) \
         if posts.has_next else None
@@ -47,18 +50,20 @@ def user(username):
     artist_track = []
     for i in range(9):
         if grid[i].artist != None:
-            artist_track.append(grid[i].artist)
-            artist_track.append(grid[i].track)
+            artist_track.append([grid[i].artist, grid[i].track])
+        else:
+            artist_track.append([0, 0])
     if post_form.validate_on_submit():
-        post = Post(body=post_form.post.data, user_id=current_user.id)
+        post = Post(body=post_form.post.data, user_id=current_user.id, location_id=pg_owner.id)
         db.session.add(post)
         db.session.commit()
         flash('Post Successful!')
-        return redirect(url_for('user', username=current_user.username))
+        return redirect(url_for('user', username=username))
     user = User.query.filter_by(username=username).first_or_404()
     follow_form = FollowForm()
     return render_template('user.html', user=user, posts=posts.items, follow_form=follow_form, post_form=post_form, artist_track=artist_track, grid=grid, next_url=next_url,
                            prev_url=prev_url)
+
 
 @app.before_request
 def before_request():
@@ -68,9 +73,11 @@ def before_request():
 
 # error handeling
 
+
 @app.errorhandler(404)
 def not_found_error(error):
     return render_template('404.html'), 404
+
 
 @app.errorhandler(500)
 def internal_error(error):
@@ -78,6 +85,7 @@ def internal_error(error):
     return render_template('500.html'), 500
 
 # Follow and un follow routes
+
 
 @app.route('/follow/<username>', methods=['POST'])
 @login_required
@@ -97,6 +105,7 @@ def follow(username):
         return redirect(url_for('user', username=username))
     else:
         return redirect(url_for('user', username=current_user.username))
+
 
 @app.route('/unfollow/<username>', methods=['POST'])
 @login_required
@@ -119,9 +128,11 @@ def unfollow(username):
 
 # Route for Feed page so public can find users to follow!
 
+
 @app.route('/explore', methods=['GET', 'POST'])
 @login_required
 def explore():
+    session['url'] = url_for('explore')
     user = User.query.filter_by(username=current_user.username).first_or_404()
     page = request.args.get('page', 1, type=int)
     posts = Post.query.order_by(Post.timestamp.desc()).paginate(
@@ -140,9 +151,11 @@ def explore():
     return render_template('feed.html', title='Explore', posts=posts.items, user=user, post_form=post_form, next_url=next_url,
                            prev_url=prev_url)
 
+
 @app.route('/followingfeed', methods=['GET', 'POST'])
 @login_required
 def following():
+    session['url'] = url_for('following')
     user = User.query.filter_by(username=current_user.username).first_or_404()
     page = request.args.get('page', 1, type=int)
     posts = current_user.followed_posts().paginate(
@@ -161,10 +174,26 @@ def following():
     return render_template('following_feed.html', title='Explore', posts=posts.items, user=user, post_form=post_form, next_url=next_url,
                            prev_url=prev_url)
 
+
 @app.route('/delete/<id>')
+@login_required
 def removePost(id):
     post = Post.query.filter_by(id=id[:36]).first()
-    db.session.delete(post)
+    if post.user_id == current_user.id:
+        db.session.delete(post)
+        db.session.commit()
+        flash(f'Post Removed', 'danger')
+        return redirect(session['url'])
+    else:
+        flash(f'You cannot remove posts that you didnt create.', 'danger')
+        return redirect(url_for('user', username=current_user.username))
+
+
+@app.route('/like/<id>')
+@login_required
+def likePost(id):
+    like = Likes(current_user.id,id)
+    db.session.add(like)
     db.session.commit()
-    flash(f'Post Removed', 'danger')
-    return redirect(url_for('user', username=current_user.username))
+    flash(f'Post Liked')
+    return redirect(session['url'])

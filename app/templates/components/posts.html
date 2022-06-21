@@ -4,16 +4,18 @@
           src="{{ post.author.avatar(34) }}"> {{ post.author.username }}</a>
       {% if post.author.id == current_user.id %}
       <a href="{{(url_for('removePost', id=post.id))}}"> <button type="button" class="close" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
+          <span style="font-size:26px" aria-hidden="true">&times;</span>
         </button></a>
       {% endif %}
     </h3>
-
   </div>
   <div class="w3-container">
     <div class="row ml-2">{{ post.body }}</div>
     <div class="w3-row">
-      <div id="left" class="column"><b>Likes </b> <span class="w3-badge">2</span></div>
+      <div id="left" class="column"><b>
+        <a href="{{(url_for('likePost', id=post.id))}}"><span class="material-symbols-outlined" style='font-size:20px'>
+              favorite
+            </span></a></b> <span class="w3-badge"></span></div>
       <div id="left" class="column"><b>Comments </b> <span class="w3-badge">2</span></div>
       <div id="right" class="column"><span class="w3-opacity">{{ (post.timestamp|string)[5:10] }} @ {{
           (post.timestamp|string)[10:16] }}</span></div>

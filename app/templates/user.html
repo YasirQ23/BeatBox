@@ -26,16 +26,16 @@
         <p><span class="w3-tag">{{ current_user.bio }}</span></p>
         {% endif %}
         {% if user.about_me %}<p>{{ user.about_me }}</p>{% endif %}
-        {% if user.last_seen %}<p>Last seen on: {{ (user.last_seen|string)[5:10] }} @ {{
-            (user.last_seen|string)[10:16] }}</p>{% endif %}
+        {% if user.last_seen %}<p><span class="w3-tag">Last seen on: {{ (user.last_seen|string)[5:10] }} @ {{
+                (user.last_seen|string)[10:16] }}</span></p>{% endif %}
         <div class="row justify-content-center">
             <div class="dropdown">
-                <button class="btn" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-expanded="false">
-                    {{ user.followers.count() }}
-                    Followers
+                <button class="btn" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-expanded="false"
+                    {% if user.followed.count()==0 %} disabled {% endif %}>
+                    {{ user.followed.count() }} Following
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    {% for user in user.followers %}
+                    {% for user in user.followed %}
                     <a class="dropdown-item" href="{{(url_for('user', username=user.username))}}"><img id="userAvatar"
                             src="{{ user.avatar(34) }}"> {{ user.username
                         }}</a>
@@ -43,11 +43,12 @@
                 </div>
             </div>
             <div class="dropdown">
-                <button class="btn" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-expanded="false">
-                    {{ user.followed.count() }} Following
+                <button class="btn" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-expanded="false"
+                    {% if user.followers.count()==0 %} disabled {% endif %}>
+                    {{ user.followers.count() }} Followers
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    {% for user in user.followed %}
+                    {% for user in user.followers %}
                     <a class="dropdown-item" href="{{(url_for('user', username=user.username))}}"><img id="userAvatar"
                             src="{{ user.avatar(34) }}"> {{ user.username
                         }}</a>
@@ -75,56 +76,69 @@
     </header>
     <div class="container" id="grid">
         {% for i in range(9) %}
+        {% if artist_track[i][0] != 0 %}
         <div class="song-card-{{ i }} zoom"><img id="s-{{ i }}" src={{ grid[i].track_img }}
                 onclick="event.preventDefault(); clickEvent({{ i }});" /></div>
+        {% else %}
+        <div class="song-card-{{ i }} zoom"><img id="s-{{ i }}" src={{ grid[i].track_img }} " /></div>
+        {% endif %}
         {% endfor %}
     </div>
-    <div class="col" align="center">
-        <h3 id="currently" class="text-center" hidden></h3>
-        <button class="btn btn-info row" id="stopbtn" onclick="event.preventDefault(); stopSong();" disabled
-            hidden>Click
-            the album cover to play/pause.</button>
-    </div>
-    <div class="w3-row">
-        {% for post in posts %}
-        {% include 'components/posts.html' %}
-        {% endfor %}
-    </div>
-    <hr>
-    <div class="row justify-content-center">
-        {% if next_url %}
-        <a class="btn" href="{{ next_url }}" role="button">Older Posts</a>
-        {% endif %}
-        {% if prev_url %}
-        <a class="btn" href="{{ prev_url }}" role="button">Newer Posts</a>
-        {% endif %}
-    </div>
-
-    {% if user == current_user %}
-    <hr>
-    <div class="w3-card-4 w3-margin w3-white">
-        <div class="w3-container pt-3">
-            <h3><b><img id="userAvatar" src="{{ current_user.avatar(34) }}"> {{ current_user.username }} </b></h3>
+    <div class=" col" align="center">
+            <h3 id="currently" class="text-center" hidden></h3>
+            <button class="btn btn-info row" id="stopbtn" onclick="event.preventDefault(); stopSong();" disabled
+                hidden>Click
+                the album cover to play/pause.</button>
         </div>
-        <div class="w3-container">
-            <div class="row justify-content-center">
-                <form action="" method="post">
-                    {{ post_form.hidden_tag() }}
-                    <p>
-                        <br>
-                        {{ post_form.post(id="post-form", placeholder="What's happening?", cols=36, rows=4) }}<br>
-                        {% for error in post_form.post.errors %}
-                        <span style="color: red;">[{{ error }}]</span>
-                        {% endfor %}
-                    <div class="row" id="post-form-btn">
-                        {{ post_form.submit(id='post-submit-btn') }}
-                    </div>
-                    </p>
-                </form>
+        <hr>
+        <div class="w3-row">
+            {% if posts %}
+            {% for post in posts %}
+            {% include 'components/posts.html' %}
+            {% endfor %}
+            {% else %}
+            <div class="w3-card-4 w3-margin w3-white">
+                <div class="w3-container pt-3">
+                    <h3><b><img id="userAvatar" src="{{ current_user.avatar(34) }}"> {{ current_user.username }} </b>
+                    </h3>
+                </div>
+                <div class="w3-container">
+                    <div class="row ml-2 mb-5">This page has no posts yet, Be the first one!</div>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+        <hr>
+        <div class="row justify-content-center">
+            {% if next_url %}
+            <a class="btn m-1" id="paginationBTN" href="{{ next_url }}" role="button">Older Posts</a>
+            {% endif %}
+            {% if prev_url %}
+            <a class="btn m-1" id="paginationBTN" href="{{ prev_url }}" role="button">Newer Posts</a>
+            {% endif %}
+        </div>
+        <div class="w3-card-4 w3-margin w3-white">
+            <div class="w3-container pt-3">
+                <h3><b><img id="userAvatar" src="{{ current_user.avatar(34) }}"> {{ current_user.username }} </b></h3>
+            </div>
+            <div class="w3-container">
+                <div class="row justify-content-center">
+                    <form action="" method="post">
+                        {{ post_form.hidden_tag() }}
+                        <p>
+                            <br>
+                            {{ post_form.post(id="post-form", placeholder="What's happening?", cols=36, rows=4) }}<br>
+                            {% for error in post_form.post.errors %}
+                            <span style="color: red;">[{{ error }}]</span>
+                            {% endfor %}
+                        <div class="row" id="post-form-btn">
+                            {{ post_form.submit(id='post-submit-btn') }}
+                        </div>
+                        </p>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
-    {% endif %}
-</div>
 </div>
 {% endblock content %}

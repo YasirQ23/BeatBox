@@ -6,33 +6,42 @@
 {% block js %}
 <script src="/static/Javascript/main.js" defer></script> {% endblock js %}
 {% block content %}
-<div class="w3-content" style="max-width:1400px">
-  <div class="row justify-content-center m-4">
-    {% with messages = get_flashed_messages() %}
-    {% if messages %}
-    {% for message in messages %}
-    <h2>{{ message }}</h2>
-    {% endfor %}
-    {% endif %}
-    {% endwith %}
-  </div>
-  <div class="w3-row">
-    {% for post in posts %}
-    {% include '/components/posts.html' %}
-    {% endfor %}
-  </div>
-  <hr>
-  <div class="row justify-content-center">
-    {% if next_url %}
-    <a class="btn" href="{{ next_url }}" role="button">Older Posts</a>
-    {% endif %}
-    {% if prev_url %}
-    <a class="btn" href="{{ prev_url }}" role="button">Newer Posts</a>
-    {% endif %}
+<div class="row justify-content-center mt-2">
+  {% with messages = get_flashed_messages() %}
+  {% if messages %}
+  {% for message in messages %}
+  <h2>{{ message }}</h2>
+  {% endfor %}
+  {% endif %}
+  {% endwith %}
 </div>
-  <hr>
+<div class="w3-row">
+  {% if posts %}
+  {% for post in posts %}
+  {% include 'components/posts.html' %}
+  {% endfor %}
+  {% else %}
+  <div class="w3-card-4 w3-margin w3-white">
+      <div class="w3-container pt-3">
+          <h3><b><img id="userAvatar" src="{{ current_user.avatar(34) }}"> {{ current_user.username }} </b>
+          </h3>
+      </div>
+      <div class="w3-container">
+          <div class="row ml-2 mb-5">This page has no posts yet, Be the first one!</div>
+      </div>
+  </div>
+  {% endif %}
 </div>
-<div class="w3-card-4 w3-margin w3-white">
+<hr>
+<div class="row justify-content-center">
+  {% if next_url %}
+  <a class="btn m-1" id="paginationBTN" href="{{ next_url }}" role="button">Older Posts</a>
+  {% endif %}
+  {% if prev_url %}
+  <a class="btn m-1" id="paginationBTN" href="{{ prev_url }}" role="button">Newer Posts</a>
+  {% endif %}
+</div>
+<!-- <div class="w3-card-4 w3-margin w3-white">
   <div class="w3-container pt-3">
     <h3><b><img id="userAvatar" src="{{ user.avatar(34) }}"> {{ user.username }} </b></h3>
   </div>
@@ -53,5 +62,5 @@
       </form>
     </div>
   </div>
-</div>
+</div> -->
 {% endblock content %}

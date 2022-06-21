@@ -2,7 +2,7 @@
 from werkzeug.security import generate_password_hash
 from uuid import uuid4
 from datetime import datetime
-from flask_login import LoginManager, UserMixin
+from flask_login import LoginManager, UserMixin, current_user
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import relationship, backref
 from hashlib import md5
@@ -37,6 +37,7 @@ class User(db.Model, UserMixin):
     bio = db.Column(db.String(255))
     grid = db.relationship('Grid', backref='user', lazy=True)
     posts = db.relationship('Post', backref='author', lazy='dynamic')
+    likes = db.relationship('Likes', backref='Liker', lazy='dynamic')
     followed = db.relationship(
         'User', secondary=followers,
         primaryjoin=(followers.c.follower_id == id),
@@ -98,32 +99,33 @@ class Post(db.Model, UserMixin):
     id = db.Column(db.String(40), primary_key=True)
     body = db.Column(db.String(140))
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
+    location_id = db.Column(db.String(40), nullable=False)
     user_id = db.Column(db.String(40), db.ForeignKey(
         'user.id'), nullable=False)
 
-    def __init__(self, user_id, body):
+    def __init__(self, user_id, body, location_id):
         self.id = str(uuid4())
         self.user_id = user_id
         self.body = body
+        self.location_id = location_id
 
     def __repr__(self):
         return '<Post {}>'.format(self.body)
 
 
-# class Likes(db.Model, UserMixin):
-#     id = db.Column(db.Integer, primary_key=True)
-#     body = db.Column(db.String(140))
-#     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
-#     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+class Likes(db.Model, UserMixin):
+    id = db.Column(db.String(40), primary_key=True)
+    location_id = db.Column(db.String(40), nullable=False)
+    user_id = db.Column(db.String(40), db.ForeignKey('user.id'), nullable=False)
 
-#     def __repr__(self):
-#         return '<Post {}>'.format(self.body)
+    def __init__(self,user_id, location_id):
+        self.id = str(uuid4())
+        self.user_id = user_id
+        self.location_id = location_id
+
 
 # class Comments(db.Model, UserMixin):
 #     id = db.Column(db.Integer, primary_key=True)
 #     body = db.Column(db.String(140))
 #     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
 #     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-
-#     def __repr__(self):
-#         return '<Post {}>'.format(self.body)

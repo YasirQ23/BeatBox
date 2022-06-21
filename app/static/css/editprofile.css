@@ -71,7 +71,7 @@ img {
     margin: 5rem;
 }
 
-#selectionbtn{
+#selectionbtn {
     border-width: 0;
     padding: 0;
     aspect-ratio: 1;
@@ -113,26 +113,27 @@ img {
     grid-area: selector-8;
 }
 
-#submit-btn{
+#submit-btn {
     background-color: #f1f1f1;
     border-width: 1px;
     border-radius: 10px;
     border-color: black;
     margin-top: 4vh;
+    margin-bottom: .5vh;
 }
 
-#search-col{
+#search-col {
     flex-grow: 0;
 }
 
-#bio-submit{
+#bio-submit {
     background-color: #f1f1f1;
     border-width: 1.5px;
     border-radius: 10px;
     border-color: black;
 }
 
-#stopbtn{
+#stopbtn {
     background-color: #f1f1f1;
     border-width: 1.5px;
     border-radius: 10px;
@@ -140,6 +141,6 @@ img {
     color: black;
 }
 
-.disabled{
+.disabled {
     color: black;
 }

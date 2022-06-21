@@ -58,6 +58,13 @@ img {
     margin: 10px;
 }
 
+#paginationBTN {
+    border-width: 1.5px;
+    border-color: black;
+    border-style: solid;
+    border-radius: 10px;
+}
+
 #right {
     float: right;
     margin: 10px;
@@ -88,24 +95,26 @@ html {
     scroll-behavior: smooth;
 }
 
-#post-form{
+#post-form {
     width: 80vw;
 }
 
-#post-form-btn{
+#post-form-btn {
     justify-content: flex-end;
     margin-right: 1vw;
 }
 
-#dropdownMenuButton{
+#dropdownMenuButton {
     color: black;
     background-color: #f1f1f1;
-    border-width: 1.5px;
+    border-width: 0;
     border-color: black;
     padding: 3px;
     margin-right: .7vw;
     margin-left: .7vw;
     margin-bottom: 2vh;
-};
+}
 
-
+#flashmsg{
+    justify-content: center;
+}
