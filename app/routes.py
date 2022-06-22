@@ -30,7 +30,7 @@ def profile_editor():
             tile.grid_position = grid_form.data['location']
             db.session.commit()
             flash('Grid Edit Successful!')
-            return redirect(url_for('user', username=current_user.username))
+            return redirect(url_for('profile_editor'))
     return render_template('profile_editor.html', bio_form=bio_form, grid_form=grid_form, grid=grid)
 
 
