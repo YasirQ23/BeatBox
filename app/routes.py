@@ -308,7 +308,7 @@ def viewFollows(username,listname):
         next_url = url_for('viewFollows', username=username, listname='followers', page=users.next_num) \
         if users.has_next else None
         prev_url = url_for('viewFollows', username=username, listname='followers', page=users.prev_num) \
-        if users.has_prev else None   
+        if users.has_prev else None
     session['back'] = url_for('user', username=username)
     session['url'] = url_for('user', username=current_user.username)
     return render_template('followingers.html',users=users.items, back=session['back'], viewinguser=viewinguser,viewing=viewing, username=username, next_url=next_url, prev_url=prev_url)

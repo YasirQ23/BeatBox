@@ -36,7 +36,7 @@
         <br>
         {{ bio_form.bio(id="bio-form", placeholder="New Bio?", cols=36, rows=4) }}<br>
       <div class="row justify-content-center" id="post-form-btn">
-        {{ bio_form.submit(id='bio-submit') }}
+        <button class="button-30" role="button">{{ bio_form.submit( id="flask_btn") }}</button>
       </div>
       </p>
     </form>
@@ -49,7 +49,7 @@
           <label for="track">Track Name:</label>
           <input name="track" id="track" type="text" required>
         </div>
-        <div class="col mb-2 d-flex justify-content-center" id="search-col"> <button type="submit" id="submit-btn">Search<span class="material-symbols-outlined">
+        <div class="col mb-2 d-flex justify-content-center" id="search-col"> <button class="button-30" role="button" id="submit-btn">Search<span class="material-symbols-outlined">
           search
           </span></button></div>
       </div>
