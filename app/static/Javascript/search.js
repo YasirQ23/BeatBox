@@ -118,7 +118,6 @@ let clickEvent = () => {
     playing = new Audio(clicked);
 
     playing.play();
-    // stopbtn.innerHTML = 'Stop Music';
     currently.innerHTML = `Playing: ${music.tracks.items[0].artists[0].name} - ${music.tracks.items[0].name}`
     currently.hidden = false;
 };

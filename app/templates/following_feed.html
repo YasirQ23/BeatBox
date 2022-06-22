@@ -46,26 +46,4 @@
   <a class="btn m-1" id="paginationBTN" href="{{ prev_url }}" role="button">Newer Posts</a>
   {% endif %}
 </div>
-<!-- <div class="w3-card-4 w3-margin w3-white">
-  <div class="w3-container pt-3">
-    <h3><b><img id="userAvatar" src="{{ user.avatar(34) }}"> {{ user.username }} </b></h3>
-  </div>
-  <div class="w3-container">
-    <div class="row justify-content-center">
-      <form action="" method="post">
-        {{ post_form.hidden_tag() }}
-        <p>
-          <br>
-          {{ post_form.post(id="post-form", placeholder="What's happening?", cols=36, rows=4) }}<br>
-          {% for error in post_form.post.errors %}
-          <span style="color: red;">[{{ error }}]</span>
-          {% endfor %}
-        <div class="row" id="post-form-btn">
-          {{ post_form.submit() }}
-        </div>
-        </p>
-      </form>
-    </div>
-  </div>
-</div> -->
 {% endblock content %}
