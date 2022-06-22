@@ -36,30 +36,14 @@
         {% if user.last_seen %}<p><span class="w3-tag">Last seen on: {{ moment(user.last_seen).format('LLL') }}</span></p>{% endif %}
         <div class="row justify-content-center">
             <div class="dropdown">
-                <button class="btn" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-expanded="false"
-                    {% if user.followed.count()==0 %} disabled {% endif %}>
+                <a href="{{(url_for('viewFollows', username=user.username,listname='following'))}}" class="btn" type="button" id="dropdownMenuButton" aria-expanded="false">
                     {{ user.followed.count() }} Following
-                </button>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    {% for user in user.followed %}
-                    <a class="dropdown-item" href="{{(url_for('user', username=user.username))}}"><img id="userAvatar"
-                            src="{{ user.avatar(34) }}"> {{ user.username
-                        }}</a>
-                    {% endfor %}
-                </div>
+                </a>
             </div>
             <div class="dropdown">
-                <button class="btn" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-expanded="false"
-                    {% if user.followers.count()==0 %} disabled {% endif %}>
-                    {{ user.followers.count() }} Followers
-                </button>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    {% for user in user.followers %}
-                    <a class="dropdown-item" href="{{(url_for('user', username=user.username))}}"><img id="userAvatar"
-                            src="{{ user.avatar(34) }}"> {{ user.username
-                        }}</a>
-                    {% endfor %}
-                </div>
+                <a href="{{(url_for('viewFollows', username=user.username,listname='followers'))}}" class="btn" type="button" id="dropdownMenuButton" aria-expanded="false">
+                    {{ user.followers.count() }} Following
+                </a>
             </div>
         </div>
         {% if user == current_user %}

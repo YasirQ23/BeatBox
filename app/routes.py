@@ -287,3 +287,28 @@ def removeComment(id):
     else:
         flash(f'Sorry, You can only remove comments which you have created or are on your post.', category='danger')
         return redirect(session['url'])
+
+@app.route('/<username>/<listname>')
+@login_required
+def viewFollows(username,listname):
+    viewinguser = User.query.filter_by(username=username).first()
+    page = request.args.get('page', 1, type=int)
+    if listname == 'following':
+        users = viewinguser.followed.paginate(
+        page, app.config['USERS_PER_PAGE'], False)
+        viewing = 'Following'
+        next_url = url_for('viewFollows', username=username, listname='following', page=users.next_num) \
+        if users.has_next else None
+        prev_url = url_for('viewFollows', username=username, listname='following', page=users.prev_num) \
+        if users.has_prev else None   
+    if listname == 'followers':
+        users = viewinguser.followers.paginate(
+        page, app.config['USERS_PER_PAGE'], False)
+        viewing = 'Followers'
+        next_url = url_for('viewFollows', username=username, listname='followers', page=users.next_num) \
+        if users.has_next else None
+        prev_url = url_for('viewFollows', username=username, listname='followers', page=users.prev_num) \
+        if users.has_prev else None   
+    session['back'] = url_for('user', username=username)
+    session['url'] = url_for('user', username=current_user.username)
+    return render_template('followingers.html',users=users.items, back=session['back'], viewinguser=viewinguser,viewing=viewing, username=username, next_url=next_url, prev_url=prev_url)
