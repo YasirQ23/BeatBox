@@ -22,7 +22,7 @@ def login():
             if user and check_password_hash(user.password, form.password.data):
                 login_user(user)
                 return redirect(url_for('user', username=current_user.username))
-        flash(f'Incorrect username or password, please try again.', 'danger')
+        flash(f'Incorrect username or password, please try again.', category='danger')
         return redirect(url_for('auth.login'))
     return render_template('login.html', form=form)
 
@@ -40,7 +40,7 @@ def register():
                 validate_email(form.email.data)
             except:
                 flash(
-                    f'Sorry, {form.email.data} is not a valid email. Please try again.', 'danger')
+                    f'Sorry, {form.email.data} is not a valid email. Please try again.', category='danger')
                 return redirect(url_for('auth.register'))
             try:
                 db.session.add(newuser)
@@ -54,10 +54,10 @@ def register():
                 newgrid = Grid(current_user.id, i)
                 db.session.add(newgrid)
                 db.session.commit()
-            flash(f'Welcome "{form.username.data}", Add a bio and some songs to your grid to get started!')
+            flash(f'Welcome "{form.username.data}", Add a bio and some songs to your grid to get started!', category='info')
             return redirect(url_for('profile_editor'))
         else:
-            flash('Sorry, passwords do not match. Please try again.', 'danger')
+            flash('Sorry, passwords do not match. Please try again.', category='danger')
             return redirect(url_for('auth.register'))
     elif request.method == 'GET':
         return render_template('register.html', form=form)
@@ -66,5 +66,5 @@ def register():
 @login_required
 def logout():
     logout_user()
-    flash('You have been signed out.', 'info')
+    flash('You have been signed out.', category='info')
     return redirect(url_for('auth.login'))

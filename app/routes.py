@@ -19,7 +19,7 @@ def profile_editor():
             user = User.query.get(current_user.id)
             user.bio = bio_form.bio.data
             db.session.commit()
-            flash('Bio Edit Successful!')
+            flash('Bio Edit Successful!',category='info')
             return redirect(url_for('user', username=current_user.username))
         if grid_form.validate_on_submit():
             tile = Grid.query.filter_by(
@@ -29,7 +29,7 @@ def profile_editor():
             tile.track_img = grid_form.data['img']
             tile.grid_position = grid_form.data['location']
             db.session.commit()
-            flash('Grid Edit Successful!')
+            flash('Grid Edit Successful!',category='info')
             return redirect(url_for('profile_editor'))
     return render_template('profile_editor.html', bio_form=bio_form, grid_form=grid_form, grid=grid)
 
@@ -60,7 +60,7 @@ def user(username):
                     user_id=current_user.id, location_id=pg_owner.id)
         db.session.add(post)
         db.session.commit()
-        flash('Post Successful!')
+        flash('Post Successful!',category='info')
         return redirect(url_for('user', username=username))
     user = User.query.filter_by(username=username).first_or_404()
     follow_form = FollowForm()
@@ -100,14 +100,14 @@ def follow(username):
     if form.validate_on_submit():
         user = User.query.filter_by(username=username).first()
         if user is None:
-            flash('User {} not found.'.format(username))
+            flash(f'User {username} not found.',category='danger')
             return redirect(url_for('user', username=current_user.username))
         if user == current_user:
-            flash('You cannot follow yourself!')
+            flash('You cannot follow yourself!',category='danger')
             return redirect(url_for('user', username=username))
         current_user.follow(user)
         db.session.commit()
-        flash('You are now following {}!'.format(username))
+        flash(f'You are now following {username}!',category='info')
         return redirect(url_for('user', username=username))
     else:
         return redirect(url_for('user', username=current_user.username))
@@ -120,14 +120,14 @@ def unfollow(username):
     if form.validate_on_submit():
         user = User.query.filter_by(username=username).first()
         if user is None:
-            flash('User {} not found.'.format(username))
+            flash(f'User {username} not found.',category='danger')
             return redirect(url_for('user', username=current_user.username))
         if user == current_user:
-            flash('You cannot unfollow yourself!')
+            flash('You cannot unfollow yourself!',category='danger')
             return redirect(url_for('user', username=username))
         current_user.unfollow(user)
         db.session.commit()
-        flash('You have unfollowed {}.'.format(username))
+        flash(f'You have unfollowed {username}.',category='info')
         return redirect(url_for('user', username=username))
     else:
         return redirect(url_for('user', username=current_user.username))
@@ -156,7 +156,7 @@ def explore():
         post = Post(body=post_form.post.data, user_id=current_user.id)
         db.session.add(post)
         db.session.commit()
-        flash('Post Successful!')
+        flash('Post Successful!',category='info')
         return redirect(url_for('explore'))
     return render_template('feed.html', title='Explore', posts=posts.items, user=user, post_form=post_form, next_url=next_url, prev_url=prev_url, liked_posts=liked_posts)
 
@@ -182,7 +182,7 @@ def following():
         post = Post(body=post_form.post.data, user_id=current_user.id)
         db.session.add(post)
         db.session.commit()
-        flash('Post Successful!')
+        flash('Post Successful!',category='info')
         return redirect(url_for('following'))
     return render_template('following_feed.html', title='Explore', posts=posts.items, user=user, post_form=post_form, next_url=next_url, prev_url=prev_url, liked_posts=liked_posts)
 
@@ -196,10 +196,10 @@ def removePost(id):
         Likes.query.filter_by(post_id=id).delete()
         db.session.delete(post)
         db.session.commit()
-        flash(f'Post Removed', 'danger')
+        flash(f'Post Removed', category='danger')
         return redirect(session['back'])
     else:
-        flash(f'Sorry, You can only remove posts which you have created or are on your page.', 'danger')
+        flash(f'Sorry, You can only remove posts which you have created or are on your page.', category='danger')
         return redirect(session['url'])
 
 
@@ -214,12 +214,12 @@ def likePost(id):
         post.likes -= 1
         db.session.delete(like)
         db.session.commit()
-        flash(f'Post Unliked')
+        flash(f'Post Unliked',category='danger')
     else:
         post.likes += 1
         db.session.add(like)
         db.session.commit()
-        flash(f'Post Liked')
+        flash(f'Post Liked',category='info')
     return redirect(session['url'])
 
 
@@ -265,7 +265,7 @@ def postComments(id):
         post[0].comments += 1
         db.session.add(comment)
         db.session.commit()
-        flash('Comment Successful!')
+        flash('Comment Successful!',category='info')
         return redirect(url_for('postComments', id=id))
     postlikers = Likes.query.filter_by(post_id=post[0].id).all()
     likes = [i.user_id for i in postlikers]
@@ -282,8 +282,8 @@ def removeComment(id):
         post.comments -= 1
         db.session.delete(comment)
         db.session.commit()
-        flash(f'Comment Removed', 'danger')
+        flash(f'Comment Removed', category='danger')
         return redirect(session['url'])
     else:
-        flash(f'Sorry, You can only remove comments which you have created or are on your post.', 'danger')
+        flash(f'Sorry, You can only remove comments which you have created or are on your post.', category='danger')
         return redirect(session['url'])
