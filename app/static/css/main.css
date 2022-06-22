@@ -167,3 +167,68 @@ html {
     padding: 0;
     border-color: black;
 }
+
+#likesdisplaymsg{
+    margin: 5px;
+    text-align: center;
+}
+
+  @media only screen and (max-width: 361px) {
+    #right {
+        font-size: 11px;
+    }
+    #likeslink{
+        padding: 1px 5px 0 5px;
+        font-size: 13px;
+    }
+    #left{
+        margin: 5px 3px 10px 3px;
+        font-size: 11px;
+    }
+  }
+
+  @media only screen and (max-width: 376px) {
+    #right {
+        font-size: 11px;
+        margin-top: 0;
+        padding-top: 10px;
+    }
+    #likeslink{
+        padding: 1px 5px 0 5px;
+    }
+    #left{
+        margin: 3px 3px 10px 3px;
+        font-size: 8px;
+    }
+  }
+
+  @media only screen and (max-width: 391px) {
+    #right {
+        font-size: 14px;
+        margin-top: 0;
+        padding-top: 4px;
+    }
+    #likeslink{
+        padding: 1px 5px 0 5px;
+    }
+    #left{
+        margin: 3px 3px 10px 3px;
+        font-size: 14px;
+    }
+  }
+
+  @media only screen and (max-width: 415px) {
+    #right {
+        font-size: 14px;
+        margin-top: 1vh;
+        padding-top: 4px;
+    }
+    #likeslink{
+        padding: 1px 5px 0 5px;
+    }
+    #left{
+        margin: 3px 3px 10px 3px;
+        font-size: 14px;
+        margin-top: 1vh;
+    }
+  }

@@ -46,14 +46,13 @@
         <div class="row ml-2">{{ comment.body }}</div>
         <div class="w3-row ">
         </div>
-        <div id="right" class="column"><span class="w3-opacity">{{ (comment.timestamp|string)[5:10] }} @ {{
-            (comment.timestamp|string)[10:16] }}</span></div>
+        <div id="right" class="column"><span class="w3-opacity">{{ moment(comment.timestamp).fromNow() }}</span></div>
     </div>
 </div>
 </div>
 {% endfor %}
 {% else %}
-<div class="row justify-content-center">
+<div class="row justify-content-center" id="likesdisplaymsg">
     <h3>This post has no Comments, Be the first one!</h3>
 </div>
 {% endif %}

@@ -18,18 +18,17 @@
           {% else %}
           <a href="{{(url_for('likePost', id=post.id))}}"><i id="hearticon" class="fa-regular fa-heart" style="font-size:22px"></i></a>
           {% endif %}
-        </b><span id="likeslink"><a style="color:white" href="{{(url_for('postLikes', id=post.id))}}">{{ post.likes }} like{% if post.likes > 1 %}s{% endif %}</a></span></div>
+        </b><span id="likeslink"><a style="color:white" href="{{(url_for('postLikes', id=post.id))}}">{{ post.likes }} like{% if post.likes != 1 %}s{% endif %}</a></span></div>
         <div id="left" class="column vertical-center"><b>
           <a href="{{(url_for('postComments', id=post.id))}}">
             {% if post.comments == 0 %}
-            <i class="fa-regular fa-comment" style="font-size:22px"></i>
+            <i id="hearticon" class="fa-regular fa-comment" style="font-size:22px"></i>
             {% else %}
-            <i class="fa fa-comment" aria-hidden="true" style="font-size:22px"></i>
+            <i id="hearticon" class="fa fa-comment" aria-hidden="true" style="font-size:22px"></i>
             {% endif %}
           </a>
-        </b><span id="likeslink"><a style="color:white" href="{{(url_for('postComments', id=post.id))}}">{{ post.comments }} comment{% if post.comments > 1 %}s{% endif %}</a></span></div>
-      <div id="right" class="column"><span class="w3-opacity">{{ (post.timestamp|string)[5:10] }} @ {{
-          (post.timestamp|string)[10:16] }}</span></div>
+        </b><span id="likeslink"><a style="color:white" href="{{(url_for('postComments', id=post.id))}}">{{ post.comments }} comment{% if post.comments != 1 %}s{% endif %}</a></span></div>
+      <div id="right" class="column"><span class="w3-opacity">{{ moment(post.timestamp).fromNow() }}</span></div>
     </div>
   </div>
 </div>
