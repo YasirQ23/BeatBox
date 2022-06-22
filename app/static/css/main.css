@@ -159,7 +159,7 @@ html {
     margin: 1vw;
 }
 
-.dropdown-item{
+.dropdown-item {
     background-color: #f1f1f1;
 }
 
@@ -168,67 +168,115 @@ html {
     border-color: black;
 }
 
-#likesdisplaymsg{
+#likesdisplaymsg {
     margin: 5px;
     text-align: center;
 }
 
-  @media only screen and (max-width: 361px) {
+@media only screen and (max-width: 361px) {
     #right {
         font-size: 11px;
     }
-    #likeslink{
+
+    #likeslink {
         padding: 1px 5px 0 5px;
         font-size: 13px;
     }
-    #left{
+
+    #left {
         margin: 5px 3px 10px 3px;
         font-size: 11px;
     }
-  }
+}
 
-  @media only screen and (max-width: 376px) {
+@media only screen and (max-width: 376px) {
     #right {
         font-size: 11px;
         margin-top: 0;
         padding-top: 10px;
     }
-    #likeslink{
+
+    #likeslink {
         padding: 1px 5px 0 5px;
     }
-    #left{
+
+    #left {
         margin: 3px 3px 10px 3px;
         font-size: 8px;
     }
-  }
+}
 
-  @media only screen and (max-width: 391px) {
+@media only screen and (max-width: 391px) {
     #right {
         font-size: 14px;
         margin-top: 0;
         padding-top: 4px;
     }
-    #likeslink{
+
+    #likeslink {
         padding: 1px 5px 0 5px;
     }
-    #left{
+
+    #left {
         margin: 3px 3px 10px 3px;
         font-size: 14px;
     }
-  }
+}
 
-  @media only screen and (max-width: 415px) {
+@media only screen and (max-width: 415px) {
     #right {
         font-size: 14px;
         margin-top: 1vh;
         padding-top: 4px;
     }
-    #likeslink{
+
+    #likeslink {
         padding: 1px 5px 0 5px;
     }
-    #left{
+
+    #left {
         margin: 3px 3px 10px 3px;
         font-size: 14px;
         margin-top: 1vh;
+    }
+}
+
+@media only screen and (max-width: 1026px) {
+    #topnavbar {
+        display: none;
+    }
+}
+
+@media only screen and (min-width: 1026px) {
+    #footer {
+        display: none;
+    }
+}
+.animate-charcter
+{
+   text-transform: uppercase;
+  background-image: linear-gradient(
+    -225deg,
+    #231557 0%,
+    #44107a 29%,
+    #ff1361 67%,
+    #fff800 100%
+  );
+  background-size: auto auto;
+  background-clip: border-box;
+  background-size: 200% auto;
+  color: #fff;
+  background-clip: text;
+  text-fill-color: transparent;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: textclip 2s linear infinite;
+  display: inline-block;
+      font-size: 25px;
+}
+
+@keyframes textclip {
+    to {
+      background-position: 200% center;
     }
   }

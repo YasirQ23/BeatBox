@@ -1,9 +1,9 @@
 {% extends 'base.html' %}
-{% block title %}Sign-In{% endblock title %}
+{% block title %} Sign-In{% endblock title %}
 {% block content %}
 
 <div class="wrapper">
-    <div class="container justify-content-center">
+    <div class="container justify-content-center" id="loginbox">
         {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
         <img id="signinimg" src="/auth_static/images/Signin.png" style="margin-top: 5.3rem;" alt="">
@@ -28,9 +28,11 @@
                 </div>
             <form method="POST">
                 {{ form.hidden_tag() }}
-                    <div class="logo">
-                        <h1>Spotify - Myspace</h1>
-                    </div>
+                            <div class="row">
+                              <div class="col-md-12 text-center">
+                                <h3 class="animate-charcter">Beat <span class='bi bi-soundwave'></span> Box</h3>
+                              </div>
+                            </div>
                     <fieldset>
                         {{ form.username(tag='input', placeholder='Username') }}
                     </fieldset>
@@ -39,8 +41,9 @@
                         {{ form.password(tag='input', placeholder='Password') }}
                     </fieldset>
                 {{ form.submit(id='form-btn') }}
+                <!-- <span class="has-separator">Or</span>
+                <a class="password-reset" href="#">Forgot password?</a> -->
                 <span class="has-separator">Or</span>
-                <a class="password-reset" href="#">Forgot password?</a>
             </form>
             <div class="sign-up">
                 Don't have an account? <a href="{{ url_for('auth.register') }}">Sign up</a>

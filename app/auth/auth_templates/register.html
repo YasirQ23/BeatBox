@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
-{% block title %}Register{% endblock title %}
+{% block title %} Register{% endblock title %}
 {% block content %}
-<div class="wrapper">
+<div class="wrapper" id="resgisterbox">
     <div class="container justify-content-center">
         <div class=" form-data">
             <div class="container-fluid d-flex justify-content-center">
@@ -21,7 +21,11 @@
             <form method="POST">
                 {{ form.hidden_tag() }}
                 <div class="logo">
-                    <h1>Spotify - Myspace</h1>
+                    <div class="row">
+                        <div class="col-md-12 text-center">
+                          <h3 class="animate-charcter">Beat <span class='bi bi-soundwave'></span> Box</h3>
+                        </div>
+                      </div>
                     <h4 class="text-secondary">Sign up to see music grids and posts from your friends.</h4>
                 </div>
                 <fieldset>

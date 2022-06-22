@@ -1,5 +1,5 @@
 {% extends 'components/layout.html' %}
-{% block title %}Users{% endblock title %}
+{% block title %}Likes{% endblock title %}
 {% block css %}
 <link rel="stylesheet" href="/static/css/main.css">
 {% endblock css %}
@@ -36,7 +36,7 @@
     </div>
     {% endfor %}
 {% else %}
-<div class="container"><div class="row" id="likesdisplaymsg"><h3>This post has no likes, Be the first one!</h3></div></div>
+<div class="container"><div class="row justify-content-center" id="likesdisplaymsg"><h3>This post has no likes, Be the first one!</h3></div></div>
 
 {% endif %}
 {% endblock content %}

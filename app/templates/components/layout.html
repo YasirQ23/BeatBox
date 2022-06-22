@@ -30,6 +30,30 @@
 </head>
 
 <body class="w3-light-grey">
+    <nav class="navbar sticky-top navbar-expand-lg navbar-light bg-light" id="topnavbar">
+        <div class="row">
+            <div class="col-md-12 text-center">
+              <h3 class="animate-charcter mr-5 pt-2">Beat <span class='bi bi-soundwave'></span> Box</h3>
+            </div>
+          </div>
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="{{ url_for('user', username=current_user.username) }}"> Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="{{ url_for('profile_editor') }}"> Edit Profile <span class="sr-only">(current)</span></a>
+              </li>
+              <li class="nav-item active">
+                <a class="nav-link" href="{{ url_for('explore') }}"> Explore <span class="sr-only">(current)</span></a>
+              </li>
+              <li class="nav-item active">
+                <a class="nav-link" href="{{ url_for('following') }}"> Your Feed <span class="sr-only">(current)</span></a>
+              </li>
+          </ul>
+          <form class="form-inline my-2 my-lg-0">
+            <button class="btn btn-outline-danger my-2 my-sm-0" type="submit"><a style="color:#d9534f;" href="{{ url_for('auth.logout') }}"> Logout </a></button>
+          </form>
+      </nav>
     {% block content %}
     {% endblock content %}
     <br>
