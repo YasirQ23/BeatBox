@@ -19,8 +19,9 @@ def load_user(userid):
 
 
 followers = db.Table('followers',
-    db.Column('follower_id', db.String(40), db.ForeignKey('user.id')),
-    db.Column('followed_id', db.String(40), db.ForeignKey('user.id')))
+                     db.Column('follower_id', db.String(
+                         40), db.ForeignKey('user.id')),
+                     db.Column('followed_id', db.String(40), db.ForeignKey('user.id')))
 
 
 class User(db.Model, UserMixin):
@@ -38,6 +39,7 @@ class User(db.Model, UserMixin):
     grid = db.relationship('Grid', backref='user', lazy=True)
     posts = db.relationship('Post', backref='author', lazy='dynamic')
     likes = db.relationship('Likes', backref='liker', lazy='dynamic')
+    comments = db.relationship('Comment', backref='comment_author', lazy='dynamic')
     followed = db.relationship(
         'User', secondary=followers,
         primaryjoin=(followers.c.follower_id == id),
@@ -121,17 +123,27 @@ class Post(db.Model, UserMixin):
 class Likes(db.Model, UserMixin):
     id = db.Column(db.String(40), primary_key=True)
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
-    post_id = db.Column(db.String(40), db.ForeignKey('post.id'), nullable=False)
-    user_id = db.Column(db.String(40), db.ForeignKey('user.id'), nullable=False)
+    post_id = db.Column(db.String(40), db.ForeignKey(
+        'post.id'), nullable=False)
+    user_id = db.Column(db.String(40), db.ForeignKey(
+        'user.id'), nullable=False)
 
-    def __init__(self,user_id, post_id):
+    def __init__(self, user_id, post_id):
         self.id = str(uuid4())
         self.user_id = user_id
         self.post_id = post_id
 
+class Comment(db.Model, UserMixin):
+    id = db.Column(db.String(40), primary_key=True)
+    body = db.Column(db.String(140))
+    timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
+    post_id = db.Column(db.String(40), db.ForeignKey(
+        'post.id'), nullable=False)
+    user_id = db.Column(db.String(40), db.ForeignKey(
+        'user.id'), nullable=False)
 
-# class Comments(db.Model, UserMixin):
-#     id = db.Column(db.Integer, primary_key=True)
-#     body = db.Column(db.String(140))
-#     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
-#     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    def __init__(self, body, user_id, post_id):
+        self.id = str(uuid4())
+        self.user_id = user_id
+        self.body = body
+        self.post_id = post_id

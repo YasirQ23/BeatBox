@@ -6,6 +6,7 @@
 {% block js %}
 <script src="/static/Javascript/main.js" defer></script> {% endblock js %}
 {% block content %}
+<a href="{{ back }}"><i id='backbtn' class="fa fa-arrow-left" aria-hidden="true"></i></a>
 <div class="row justify-content-center mt-2">
     {% with messages = get_flashed_messages() %}
     {% if messages %}
@@ -37,13 +38,4 @@
 {% else %}
 <div class="row justify-content-center"><h3>This post has no likes, Be the first one!</h3></div>
 {% endif %}
-<!-- <div class="row justify-content-center">
-    {% if next_url %}
-    <hr>
-    <a class="btn m-1" id="paginationBTN" href="{{ next_url }}" role="button">Older Posts</a>
-    {% endif %}
-    {% if prev_url %}
-    <a class="btn m-1" id="paginationBTN" href="{{ prev_url }}" role="button">Newer Posts</a>
-    {% endif %}
-</div> -->
 {% endblock content %}

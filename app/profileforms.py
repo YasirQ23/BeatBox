@@ -23,3 +23,7 @@ class FollowForm(FlaskForm):
 class PostForm(FlaskForm):
     post = TextAreaField(validators=[DataRequired(), Length(min=1, max=280)])
     submit = SubmitField('Submit')
+
+class CommentForm(FlaskForm):
+    comment = TextAreaField(validators=[DataRequired(), Length(min=1, max=280)])
+    submit = SubmitField('Submit')

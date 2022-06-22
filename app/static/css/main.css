@@ -115,18 +115,46 @@ html {
     margin-bottom: 2vh;
 }
 
-#flashmsg{
+#flashmsg {
     justify-content: center;
 }
 
-#usercard{
+#usercard {
     margin-right: 5vw;
     margin-left: 5vw;
     margin-bottom: 1vh;
     padding: 1vh;
 }
 
-#likeslink{
-    color:#f1f1f1;
-    text-decoration: underline;
+#likeslink {
+    color: #f1f1f1;
+    background-color: #007bff;
+    border-radius: 10px;
+    height: 23.5px;
+    padding: 0 7px 0 7px;
+    margin-left: 4px;
+    margin-bottom: 1px;
+
+}
+
+#backbtn {
+    padding-top: .5vw;
+    margin-top: .5vw;
+    padding-left: .5vw;
+    margin-left: .5vw;
+    margin-bottom: 0;
+    padding-bottom: 0;
+    font-size: 24px;
+    color: black;
+}
+
+.vertical-center {
+    display: flex;
+    align-items: center;
+}
+
+#commentdisplaybox {
+    width: 80vw;
+    padding: 1vw;
+    margin: 1vw;
 }

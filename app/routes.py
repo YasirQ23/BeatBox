@@ -1,8 +1,9 @@
+from xml.etree.ElementTree import Comment
 from app import app
-from app.models import User, db, Grid, Post, Likes
+from app.models import User, db, Grid, Post, Likes, Comment
 from flask import Blueprint, render_template, request, redirect, url_for, flash, session
 from flask_login import current_user, login_required
-from app.profileforms import BioForm, GridForm, FollowForm, PostForm
+from app.profileforms import BioForm, GridForm, FollowForm, PostForm, CommentForm
 from datetime import datetime
 
 
@@ -218,13 +219,46 @@ def likePost(id):
         flash(f'Post Liked')
     return redirect(session['url'])
 
+
 @app.route('/<id>/likes')
 @login_required
 def postLikes(id):
+    try:
+        if request.referrer[-5:] != 'likes':
+            session['back'] = (request.referrer)
+    except:
+        session['back'] = url_for('postLikes', id=id)
     session['url'] = url_for('postLikes', id=id)
     post = Post.query.filter_by(id=id)
     postlikers = Likes.query.filter_by(post_id=post[0].id).all()
     likes = [i.user_id for i in postlikers]
     likers = User.query.filter(User.id.in_(likes)).all()
     likers_id = [i.id for i in likers]
-    return render_template('display_users.html', post=post, likers=likers, likers_id=likers_id)
+    comments = Comment.query.filter_by(post_id=post[0].id).order_by(Comment.timestamp.desc())
+    return render_template('display_users.html', post=post, likers=likers, likers_id=likers_id, back=session['back'], comments=comments)
+
+@app.route('/<id>/comments', methods=['GET', 'POST'])
+@login_required
+def postComments(id):
+    try:
+        if request.referrer[-8:] != 'comments':
+            session['back'] = (request.referrer)
+    except:
+        session['back'] = url_for('postComments', id=id)
+    session['url'] = url_for('postComments', id=id)
+    post = Post.query.filter_by(id=id)
+    comments = Comment.query.filter_by(post_id=post[0].id).order_by(Comment.timestamp.desc())
+    comment_form = CommentForm()
+    if comment_form.validate_on_submit():
+        comment = Comment(body=comment_form.comment.data,
+                    user_id=current_user.id, post_id=id)
+        post[0].comments += 1
+        db.session.add(comment)
+        db.session.commit()
+        flash('Comment Successful!')
+        return redirect(url_for('postComments', id=id))
+    postlikers = Likes.query.filter_by(post_id=post[0].id).all()
+    likes = [i.user_id for i in postlikers]
+    likers = User.query.filter(User.id.in_(likes)).all()
+    likers_id = [i.id for i in likers]
+    return render_template('comments.html', post=post, likers=likers, likers_id=likers_id, comment_form=comment_form, comments=comments, back=session['back'])
