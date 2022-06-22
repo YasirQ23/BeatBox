@@ -286,4 +286,4 @@ def removeComment(id):
         return redirect(session['url'])
     else:
         flash(f'Sorry, You can only remove comments which you have created or are on your post.', category='danger')
-        return redirect(session['url'])c
+        return redirect(session['url'])
