@@ -217,3 +217,14 @@ def likePost(id):
         db.session.commit()
         flash(f'Post Liked')
     return redirect(session['url'])
+
+@app.route('/<id>/likes')
+@login_required
+def postLikes(id):
+    session['url'] = url_for('postLikes', id=id)
+    post = Post.query.filter_by(id=id)
+    postlikers = Likes.query.filter_by(post_id=post[0].id).all()
+    likes = [i.user_id for i in postlikers]
+    likers = User.query.filter(User.id.in_(likes)).all()
+    likers_id = [i.id for i in likers]
+    return render_template('display_users.html', post=post, likers=likers, likers_id=likers_id)

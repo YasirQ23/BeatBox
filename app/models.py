@@ -120,6 +120,7 @@ class Post(db.Model, UserMixin):
 
 class Likes(db.Model, UserMixin):
     id = db.Column(db.String(40), primary_key=True)
+    timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     post_id = db.Column(db.String(40), db.ForeignKey('post.id'), nullable=False)
     user_id = db.Column(db.String(40), db.ForeignKey('user.id'), nullable=False)
 

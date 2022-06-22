@@ -118,3 +118,15 @@ html {
 #flashmsg{
     justify-content: center;
 }
+
+#usercard{
+    margin-right: 5vw;
+    margin-left: 5vw;
+    margin-bottom: 1vh;
+    padding: 1vh;
+}
+
+#likeslink{
+    color:#f1f1f1;
+    text-decoration: underline;
+}

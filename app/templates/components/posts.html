@@ -13,12 +13,12 @@
     <div class="row ml-2">{{ post.body }}</div>
     <div class="w3-row">
       <div id="left" class="column"><b>
-          {% if post.id in liked_posts %}
+          {% if post.id in liked_posts or current_user.id in likers_id%}
           <a href="{{(url_for('likePost', id=post.id))}}"><i class="fa-solid fa-heart"></i> </a>
           {% else %}
           <a href="{{(url_for('likePost', id=post.id))}}"><i class="fa-regular fa-heart"></i></a>
           {% endif %}
-        </b><span class="w3-badge">{{ post.likes }}</span></div>
+        </b><span class="w3-badge"><a id="likeslink" href="{{(url_for('postLikes', id=post.id))}}">{{ post.likes }}</a></span></div>
       <div id="left" class="column"><b>Comments </b> <span class="w3-badge">2</span></div>
       <div id="right" class="column"><span class="w3-opacity">{{ (post.timestamp|string)[5:10] }} @ {{
           (post.timestamp|string)[10:16] }}</span></div>
