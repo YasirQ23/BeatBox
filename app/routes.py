@@ -35,11 +35,12 @@ def profile_editor():
 
 
 @app.route('/user/<username>', methods=['GET', 'POST'])
+@login_required
 def user(username):
     session['url'] = url_for('user', username=username)
     post_form = PostForm()
-    page = request.args.get('page', 1, type=int)
     pg_owner = User.query.filter_by(username=username).first()
+    page = request.args.get('page', 1, type=int)
     posts = Post.query.filter_by(location_id=pg_owner.id).order_by(Post.timestamp.desc()).paginate(
         page, app.config['POSTS_PER_PAGE'], False)
     next_url = url_for('user', username=current_user.username, page=posts.next_num) \
@@ -189,15 +190,17 @@ def following():
 @app.route('/delete/<id>')
 @login_required
 def removePost(id):
-    post = Post.query.filter_by(id=id[:36]).first()
+    post = Post.query.filter_by(id=id).first()
     if post.user_id == current_user.id or post.location_id == current_user.id:
+        Comment.query.filter_by(post_id=id).delete()
+        Likes.query.filter_by(post_id=id).delete()
         db.session.delete(post)
         db.session.commit()
         flash(f'Post Removed', 'danger')
-        return redirect(session['url'])
+        return redirect(session['back'])
     else:
         flash(f'Sorry, You can only remove posts which you have created or are on your page.', 'danger')
-        return redirect(url_for('user', username=current_user.username))
+        return redirect(session['url'])
 
 
 @app.route('/like/<id>')
@@ -224,7 +227,7 @@ def likePost(id):
 @login_required
 def postLikes(id):
     try:
-        if request.referrer[-5:] != 'likes':
+        if request.referrer[-8:] != 'comments' and request.referrer[-5:] != 'likes':
             session['back'] = (request.referrer)
     except:
         session['back'] = url_for('postLikes', id=id)
@@ -241,13 +244,20 @@ def postLikes(id):
 @login_required
 def postComments(id):
     try:
-        if request.referrer[-8:] != 'comments':
+        if request.referrer[-8:] != 'comments' and request.referrer[-5:] != 'likes':
             session['back'] = (request.referrer)
     except:
         session['back'] = url_for('postComments', id=id)
     session['url'] = url_for('postComments', id=id)
     post = Post.query.filter_by(id=id)
     comments = Comment.query.filter_by(post_id=post[0].id).order_by(Comment.timestamp.desc())
+    page = request.args.get('page', 1, type=int)
+    comments = Comment.query.filter_by(post_id=post[0].id).order_by(Comment.timestamp.desc()).paginate(
+        page, app.config['POSTS_PER_PAGE'], False)
+    next_url = url_for('postComments', id=id, page=comments.next_num) \
+        if comments.has_next else None
+    prev_url = url_for('postComments', id=id, page=comments.prev_num) \
+        if comments.has_prev else None
     comment_form = CommentForm()
     if comment_form.validate_on_submit():
         comment = Comment(body=comment_form.comment.data,
@@ -261,4 +271,19 @@ def postComments(id):
     likes = [i.user_id for i in postlikers]
     likers = User.query.filter(User.id.in_(likes)).all()
     likers_id = [i.id for i in likers]
-    return render_template('comments.html', post=post, likers=likers, likers_id=likers_id, comment_form=comment_form, comments=comments, back=session['back'])
+    return render_template('comments.html', post=post, likers=likers, likers_id=likers_id, comment_form=comment_form, comments=comments.items, back=session['back'], next_url=next_url, prev_url=prev_url)
+
+@app.route('/deletecomment/<id>')
+@login_required
+def removeComment(id):
+    comment = Comment.query.filter_by(id=id).first()
+    post = Post.query.filter_by(id=comment.post_id).first()
+    if comment.comment_author.id == current_user.id or comment.post_owner.user_id == current_user.id:
+        post.comments -= 1
+        db.session.delete(comment)
+        db.session.commit()
+        flash(f'Comment Removed', 'danger')
+        return redirect(session['url'])
+    else:
+        flash(f'Sorry, You can only remove comments which you have created or are on your post.', 'danger')
+        return redirect(session['url'])

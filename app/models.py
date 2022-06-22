@@ -107,6 +107,7 @@ class Post(db.Model, UserMixin):
     user_id = db.Column(db.String(40), db.ForeignKey(
         'user.id'), nullable=False)
     liked = db.relationship('Likes', backref='Post', lazy='dynamic')
+    comment = db.relationship('Comment', backref='post_owner', lazy='dynamic')
 
     def __init__(self, user_id, body, location_id):
         self.id = str(uuid4())

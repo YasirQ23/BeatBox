@@ -158,3 +158,12 @@ html {
     padding: 1vw;
     margin: 1vw;
 }
+
+.dropdown-item{
+    background-color: #f1f1f1;
+}
+
+.dropdown-menu {
+    padding: 0;
+    border-color: black;
+}
