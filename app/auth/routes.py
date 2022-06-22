@@ -54,6 +54,7 @@ def register():
                 newgrid = Grid(current_user.id, i)
                 db.session.add(newgrid)
                 db.session.commit()
+            flash(f'Welcome "{form.username.data}", Add a bio and some songs to your grid to get started!')
             return redirect(url_for('profile_editor'))
         else:
             flash('Sorry, passwords do not match. Please try again.', 'danger')
