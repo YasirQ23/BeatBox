@@ -78,6 +78,20 @@ const createTile = (data) => {
 };
 
 let form = document.getElementById('infoform');
+let button = document.getElementById('submit-btn')
+
+button.addEventListener('touchend', (event) => {
+    event.preventDefault();
+    let x = event.path[0][0].value;
+    let y = event.path[0][1].value;
+    form.reset();
+    data = getData(x, y);
+    stopbtn.hidden = false;
+    addbtn.hidden = false;
+    selectorgrid.hidden = false;
+    currently.hidden = false;
+    stopSong();
+});
 
 form.addEventListener('submit', (event) => {
     event.preventDefault();
