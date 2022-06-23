@@ -23,16 +23,16 @@
 </div>
 <hr>
 {% if users %}
-<div class="row justify-content-center"><h3>Users</h3></div>
-    {% for user in users %}
-    <div id="usercard" class="w3-card-4 w3-white justify-content-center">
-        <div class="w3-container justify-content-center">
-            <a class="dropdown-item" href="{{(url_for('user', username=user.username))}}"><img id="userAvatar"
-                    src="{{ user.avatar(34) }}"> {{ user.username
-                }}</a>
-        </div>
+<div class="row justify-content-center"><h3>Search results for "{{ uname }}"</h3></div>
+{% for user in users %}
+<div id="usercard" class="w3-card-4 w3-white justify-content-center">
+    <div class="w3-container justify-content-center">
+        <a class="button" style="color: black;" href="{{(url_for('user', username=user.username))}}"><img id="userAvatar"
+                src="{{ user.avatar(34) }}"> {{ user.username
+            }}</a>
     </div>
-    {% endfor %}
+</div>
+{% endfor %}
 {% else %}
 <div class="container"><div class="row justify-content-center" id="likesdisplaymsg"><h3>No Users with the username "{{ uname }}"</h3></div></div>
 
