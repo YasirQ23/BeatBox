@@ -4,7 +4,8 @@
 <head>
     <title>{% block title %}{% endblock title %}</title>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1"> -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
@@ -50,9 +51,9 @@
                 <a class="nav-link" href="{{ url_for('following') }}"> Your Feed <span class="sr-only">(current)</span></a>
               </li>
           </ul>
-          <form class="form-inline my-2 my-lg-0">
-            <a style="color:black" href="{{ url_for('auth.logout') }}"><button class="btn btn-outline-danger my-2 my-sm-0" type="submit"> Logout </button></a>
-          </form>
+          <div class="form-inline my-2 my-lg-0">
+            <a style="color:black" href="{{ url_for('auth.logout') }}"><button class="btn btn-outline-danger my-2 my-sm-0"> Logout </button></a>
+          </div>
       </nav>
     {% block content %}
     {% endblock content %}
