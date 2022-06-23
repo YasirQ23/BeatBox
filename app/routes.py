@@ -319,6 +319,7 @@ def viewFollows(username,listname):
 @app.route('/searchfor/<uname>')
 @login_required
 def searchFor(uname):
+    session['url'] = url_for('explore')
     page = request.args.get('page', 1, type=int)
     users = User.query.filter(User.username_id.ilike(f'%{uname.lower().strip()}%')).paginate(
         page, app.config['USERS_PER_PAGE'], False)

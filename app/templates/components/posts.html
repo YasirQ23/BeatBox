@@ -28,7 +28,7 @@
             {% endif %}
           </a>
         </b><span id="likeslink"><a style="color:white" href="{{(url_for('postComments', id=post.id))}}">{{ post.comments }} comment{% if post.comments != 1 %}s{% endif %}</a></span></div>
-      <div id="right" class="column"><span class="w3-opacity">{{ moment(post.timestamp).fromNow() }}</span></div>
+      <div id="right" class="column"><span id="timestamppost" class="w3-opacity">{{ moment(post.timestamp).fromNow() }}</span></div>
     </div>
   </div>
 </div>

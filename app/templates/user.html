@@ -35,14 +35,10 @@
         {% if user.last_seen %}<p><span class="w3-tag">Last seen on: {{ moment(user.last_seen).format('LLL') }}</span></p>{% endif %}
         <div class="row justify-content-center">
             <div class="dropdown">
-                <a href="{{(url_for('viewFollows', username=user.username,listname='following'))}}" class="btn" type="button" id="dropdownMenuButton" aria-expanded="false">
-                    {{ user.followed.count() }} Following
-                </a>
+                <a href="{{(url_for('viewFollows', username=user.username,listname='followers'))}}" class="btn" type="button" id="dropdownMenuButton" aria-expanded="false">{{ user.followers.count() }}  Followers</a>
             </div>
             <div class="dropdown">
-                <a href="{{(url_for('viewFollows', username=user.username,listname='followers'))}}" class="btn" type="button" id="dropdownMenuButton" aria-expanded="false">
-                    {{ user.followers.count() }} Followers
-                </a>
+                <a href="{{(url_for('viewFollows', username=user.username,listname='following'))}}" class="btn" type="button" id="dropdownMenuButton" aria-expanded="false">Following  {{ user.followed.count() }}</a>
             </div>
         </div>
         {% if user == current_user %}
@@ -92,7 +88,7 @@
                     </h3>
                 </div>
                 <div class="w3-container">
-                    <div class="row ml-2 mb-5">This page has no posts yet, Be the first one!</div>
+                    <div class="row ml-2 mb-5 mr-1">This page has no posts yet, Be the first one!</div>
                 </div>
             </div>
             {% endif %}
