@@ -225,7 +225,8 @@ html {
         margin: 3px 3px 10px 3px;
         font-size: 14px;
     }
-    #timestamppost{
+
+    #timestamppost {
         font-size: 10px;
     }
 }
@@ -246,7 +247,8 @@ html {
         font-size: 14px;
         margin-top: 1vh;
     }
-    #searchborder{
+
+    #searchborder {
         border-radius: 20px;
         width: 80vw;
     }
@@ -256,17 +258,20 @@ html {
     #topnavbar {
         display: none;
     }
-    #footer{
-       text-align: center;
+
+    #footer {
+        text-align: center;
     }
-    .col-2{
-        display:inline-block;
+
+    .col-2 {
+        display: inline-block;
         vertical-align: middle;
         float: none;
-     }
-     #icon1{
+    }
+
+    #icon1 {
         margin-top: 1px;
-     }
+    }
 }
 
 @media only screen and (min-width: 1026px) {
@@ -345,26 +350,61 @@ html {
     transform: translateY(2px);
 }
 
-#searchbtn{
+#searchbtn {
     background-color: #fdfdfd;
     color: black;
     border-color: #fdfdfd;
 }
 
-#searchbtnbox{
+#searchbtnbox {
     border-radius: 20px;
     margin-top: 2px;
     margin-left: 2px;
     height: 30px;
 }
 
-#searchbox{
+#searchbox {
     border-radius: 20px;
     margin-right: 2px;
 }
 
-#searchborder{
+#searchborder {
     border-radius: 20px;
-    margin:0;
+    margin: 0;
     max-width: 100%;
+}
+
+#navbtns {
+    background-image: linear-gradient(to right,
+            #54b3d6,
+            #54b3d6 50%,
+            #000 50%);
+    background-size: 200% 100%;
+    background-position: -100%;
+    display: inline-block;
+    padding: 5px 0;
+    position: relative;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    transition: all 0.3s ease-in-out;
+}
+
+#navbtns:before {
+    content: '';
+    background: #ff9191;
+    display: block;
+    position: absolute;
+    bottom: -3px;
+    left: 0;
+    width: 0;
+    height: 3px;
+    transition: all 0.3s ease-in-out;
+}
+
+#navbtns:hover {
+    background-position: 0;
+}
+
+#navbtns:hover::before {
+    width: 100%;
 }
