@@ -259,9 +259,6 @@ html {
     #topnavbar {
         display: none;
     }
-    #postbtn1{
-        color: black;
-    }
 }
 
 @media only screen and (min-width: 1026px) {
