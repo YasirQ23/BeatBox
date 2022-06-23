@@ -163,6 +163,12 @@ body {
         margin-top: 2vh;
         height: 70vh;
     }
+    .form-data{
+        margin-bottom: 4rem;
+    }
+    #signinimg{
+        margin-top: 4rem;
+    }
   }
 
   .animate-charcter
