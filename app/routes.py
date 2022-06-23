@@ -200,7 +200,7 @@ def removePost(id):
         db.session.delete(post)
         db.session.commit()
         flash(f'Post Removed', category='danger')
-        return redirect(session['back'])
+        return redirect(session['url'])
     else:
         flash(f'Sorry, You can only remove posts which you have created or are on your page.', category='danger')
         return redirect(session['url'])
