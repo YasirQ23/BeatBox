@@ -158,6 +158,9 @@ def explore():
         db.session.commit()
         flash('Post Successful!',category='info')
         return redirect(url_for('explore'))
+    if request.method == "POST":
+        uname = request.form.get("uname")
+        return redirect(url_for('searchFor', uname=uname))
     return render_template('feed.html', title='Explore', posts=posts.items, user=user, post_form=post_form, next_url=next_url, prev_url=prev_url, liked_posts=liked_posts)
 
 
@@ -312,3 +315,15 @@ def viewFollows(username,listname):
     session['back'] = url_for('user', username=username)
     session['url'] = url_for('user', username=current_user.username)
     return render_template('followingers.html',users=users.items, back=session['back'], viewinguser=viewinguser,viewing=viewing, username=username, next_url=next_url, prev_url=prev_url)
+
+@app.route('/searchfor/<uname>')
+@login_required
+def searchFor(uname):
+    page = request.args.get('page', 1, type=int)
+    users = User.query.filter(User.username.like(uname)).paginate(
+        page, app.config['USERS_PER_PAGE'], False)
+    next_url = url_for('Search', page=users.next_num) \
+    if users.has_next else None
+    prev_url = url_for('Search', page=users.prev_num) \
+    if users.has_prev else None
+    return render_template('search.html', back=session['url'], users=users.items, uname=uname)

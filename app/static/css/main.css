@@ -246,6 +246,10 @@ html {
         font-size: 14px;
         margin-top: 1vh;
     }
+    #searchborder{
+        border-radius: 20px;
+        width: 80vw;
+    }
 }
 
 @media only screen and (max-width: 1026px) {
@@ -328,4 +332,28 @@ html {
 .button-30:active {
     box-shadow: #D6D6E7 0 3px 7px inset;
     transform: translateY(2px);
+}
+
+#searchbtn{
+    background-color: #fdfdfd;
+    color: black;
+    border-color: #fdfdfd;
+}
+
+#searchbtnbox{
+    border-radius: 20px;
+    margin-top: 2px;
+    margin-left: 2px;
+    height: 30px;
+}
+
+#searchbox{
+    border-radius: 20px;
+    margin-right: 2px;
+}
+
+#searchborder{
+    border-radius: 20px;
+    margin:0;
+    max-width: 100%;
 }

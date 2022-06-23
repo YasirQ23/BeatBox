@@ -11,15 +11,25 @@
   {% if messages %}
   {% for category, message in messages %}
   <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
-      {{ message }}
-      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-      </button>
+    {{ message }}
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
   </div>
   {% endfor %}
   {% endif %}
   {% endwith %}
-</div>
+</div><div class="row justify-content-center"><form action="" method="post">
+  <div id="searchborder" class="col-md-4 offset-md-4 mt-0 border border-primary pt-3">
+    <div class="input-group mb-3">
+      <input id="searchbox" type="text" name="uname" class="form-control" placeholder="Search By Username" aria-label="Recipient's username">
+      <div class="input-group-append">
+        <button id="searchbtnbox" class="button-30" type="submit"><span id="searchbtn" class="input-group-text"><i class="fa fa-search"></i></span></button>
+      </div>
+    </div>
+  </div>
+</form></div>
+
 <div class="w3-row">
   {% if posts %}
   {% for post in posts %}
@@ -27,13 +37,13 @@
   {% endfor %}
   {% else %}
   <div class="w3-card-4 w3-margin w3-white">
-      <div class="w3-container pt-3">
-          <h3><b><img id="userAvatar" src="{{ current_user.avatar(34) }}"> {{ current_user.username }} </b>
-          </h3>
-      </div>
-      <div class="w3-container">
-          <div class="row ml-2 mb-5">This page has no posts yet, Be the first one!</div>
-      </div>
+    <div class="w3-container pt-3">
+      <h3><b><img id="userAvatar" src="{{ current_user.avatar(34) }}"> {{ current_user.username }} </b>
+      </h3>
+    </div>
+    <div class="w3-container">
+      <div class="row ml-2 mb-5">This page has no posts yet, Be the first one!</div>
+    </div>
   </div>
   {% endif %}
 </div>
@@ -46,5 +56,27 @@
   {% if prev_url %}
   <a class="btn m-1" id="paginationBTN" href="{{ prev_url }}" role="button">Newer Posts</a>
   {% endif %}
+</div>
+<div class="w3-card-4 w3-margin w3-white">
+  <div class="w3-container pt-3">
+    <h3><b><img id="userAvatar" src="{{ current_user.avatar(34) }}"> {{ current_user.username }} </b></h3>
+  </div>
+  <div class="w3-container">
+    <div class="row justify-content-center">
+      <form action="" method="post">
+        {{ post_form.hidden_tag() }}
+        <p>
+          <br>
+          {{ post_form.post(id="post-form", placeholder="What's happening?", cols=36, rows=4) }}<br>
+          {% for error in post_form.post.errors %}
+          <span style="color: red;">[{{ error }}]</span>
+          {% endfor %}
+        <div class="row" id="post-form-btn">
+          <button class="button-30" role="button">{{ post_form.submit( id="flask_btn") }}</button>
+        </div>
+        </p>
+      </form>
+    </div>
+  </div>
 </div>
 {% endblock content %}
