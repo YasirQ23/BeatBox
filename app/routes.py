@@ -5,6 +5,7 @@ from flask import Blueprint, render_template, request, redirect, url_for, flash,
 from flask_login import current_user, login_required
 from app.profileforms import BioForm, GridForm, FollowForm, PostForm, CommentForm
 from datetime import datetime
+import os
 
 
 @app.route('/profile-editor', methods=['GET', 'POST'])
@@ -31,7 +32,7 @@ def profile_editor():
             db.session.commit()
             flash('Grid Edit Successful!',category='info')
             return redirect(url_for('profile_editor'))
-    return render_template('profile_editor.html', bio_form=bio_form, grid_form=grid_form, grid=grid)
+    return render_template('profile_editor.html', bio_form=bio_form, grid_form=grid_form, grid=grid, Secret=os.environ.get('CLIENT_SECRET'))
 
 
 @app.route('/user/<username>', methods=['GET', 'POST'])
@@ -68,7 +69,7 @@ def user(username):
     like = Likes.query.filter(Likes.post_id.in_(
         loadedposts)).filter_by(user_id=current_user.id).all()
     liked_posts = [i.post_id for i in like]
-    return render_template('user.html', user=user, posts=posts.items, follow_form=follow_form, post_form=post_form, artist_track=artist_track, grid=grid, next_url=next_url, prev_url=prev_url, liked_posts=liked_posts)
+    return render_template('user.html', user=user, posts=posts.items, follow_form=follow_form, post_form=post_form, artist_track=artist_track, grid=grid, next_url=next_url, prev_url=prev_url, liked_posts=liked_posts, Secret=os.environ.get('CLIENT_SECRET'))
 
 
 @app.before_request
