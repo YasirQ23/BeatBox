@@ -153,7 +153,7 @@ def explore():
         loadedposts)).filter_by(user_id=current_user.id).all()
     liked_posts = [i.post_id for i in like]
     if post_form.validate_on_submit():
-        post = Post(body=post_form.post.data, user_id=current_user.id)
+        post = Post(body=post_form.post.data, user_id=current_user.id, location_id=current_user.id)
         db.session.add(post)
         db.session.commit()
         flash('Post Successful!',category='info')
@@ -182,7 +182,7 @@ def following():
         loadedposts)).filter_by(user_id=current_user.id).all()
     liked_posts = [i.post_id for i in like]
     if post_form.validate_on_submit():
-        post = Post(body=post_form.post.data, user_id=current_user.id)
+        post = Post(body=post_form.post.data, user_id=current_user.id, location_id=current_user.id)
         db.session.add(post)
         db.session.commit()
         flash('Post Successful!',category='info')
