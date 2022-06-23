@@ -28,11 +28,10 @@
             {% endwith %}
         </div>
         <h1><b>{{ user.username }}</b></h1>
-        {% if current_user.bio == None %}
+        {% if user.bio == None %}
         {% else %}
-        <p><span class="w3-tag">{{ current_user.bio }}</span></p>
+        <p><span class="w3-tag">{{ user.bio }}</span></p>
         {% endif %}
-        {% if user.about_me %}<p>{{ user.about_me }}</p>{% endif %}
         {% if user.last_seen %}<p><span class="w3-tag">Last seen on: {{ moment(user.last_seen).format('LLL') }}</span></p>{% endif %}
         <div class="row justify-content-center">
             <div class="dropdown">
