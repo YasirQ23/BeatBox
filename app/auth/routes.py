@@ -18,7 +18,7 @@ def login():
     if request.method == 'POST':
         if form.validate_on_submit():
             user = User.query.filter_by(
-                username_id=form.username.data.lower()).first()
+                username_id=form.username.data.lower().strip()).first()
             if user and check_password_hash(user.password, form.password.data):
                 login_user(user)
                 return redirect(url_for('user', username=current_user.username))
