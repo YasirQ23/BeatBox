@@ -27,6 +27,7 @@
             {% endif %}
             {% endwith %}
         </div>
+        <img id="userAvatar" src="{{ user.avatar(34) }}" style="width: 4vw;">
         <h1><b>{{ user.username }}</b></h1>
         {% if user.bio == None %}
         {% else %}
