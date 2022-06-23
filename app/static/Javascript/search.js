@@ -78,12 +78,12 @@ const createTile = (data) => {
 };
 
 let form = document.getElementById('infoform');
-let button = document.getElementById('submit-btn')
+let button3 = document.getElementById('submit-btn')
 
-button.addEventListener('touchend', (event) => {
+button3.addEventListener('touchend', (event) => {
     event.preventDefault();
-    let x = event.path[0][0].value;
-    let y = event.path[0][1].value;
+    let x = document.getElementById("artist").value;
+    let y = document.getElementById("track").value;
     form.reset();
     data = getData(x, y);
     stopbtn.hidden = false;
