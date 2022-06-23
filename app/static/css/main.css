@@ -79,10 +79,6 @@ img {
     transform: scale(1.5);
 }
 
-#editbtn {
-    margin-top: 3px;
-}
-
 #userAvatar {
     border-radius: 50%;
 }
@@ -259,6 +255,17 @@ html {
     #topnavbar {
         display: none;
     }
+    #footer{
+       text-align: center;
+    }
+    .col-2{
+        display:inline-block;
+        vertical-align: middle;
+        float: none;
+     }
+     #icon1{
+        margin-top: 1px;
+     }
 }
 
 @media only screen and (min-width: 1026px) {
