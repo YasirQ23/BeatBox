@@ -37,7 +37,7 @@ const getData = async (x, y) => {
         selectorgrid.hidden = true;
         imagelocation = document.getElementById(`s-1`)
         imagelocation.src = 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/1024px-No_image_available.svg.png'
-        currently.innerHTML = `Sorry, but nothing matched that artist and track name. Please try again with a different artist or track!`
+        currently.innerHTML = `Sorry, but nothing matched that artist or track name. Please try again with a different artist or track!`
         currently.hidden = false;
         stopbtn.hidden = true;
     } else {
@@ -97,6 +97,12 @@ form.addEventListener('submit', (event) => {
     event.preventDefault();
     let x = event.path[0][0].value;
     let y = event.path[0][1].value;
+    if (x == '') {
+        x = 'not'
+          }
+    if (y == '') {
+        y ='not'
+        }
     form.reset();
     data = getData(x, y);
     stopbtn.hidden = false;
