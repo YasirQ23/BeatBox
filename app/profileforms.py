@@ -5,7 +5,7 @@ from wtforms.validators import DataRequired, Length
 
 class BioForm(FlaskForm):
     bio = TextAreaField('BIO', validators=[DataRequired(), Length(min=1, max=280)])
-    submit = SubmitField('Save Bio Changes')
+    submit = SubmitField('Save New Bio')
 
 
 class GridForm(FlaskForm):
