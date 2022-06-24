@@ -255,6 +255,17 @@ img {
     border-color: black;
 }
 
+#error_msg{
+    background-color: #f1f1f1;
+    border-width: 1.5px;
+    border-radius: 10px;
+    margin: auto;
+    width: fit-content;
+    padding-bottom: .3rem;
+    color: black;
+    border-color: black;
+}
+
 #searchcolmuns{
     max-width: fit-content;
     margin-top: 2vh;

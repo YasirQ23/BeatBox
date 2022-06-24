@@ -36,10 +36,11 @@ const getData = async (x, y) => {
     if (data.tracks.items.length == 0) {
         selectorgrid.hidden = true;
         imagelocation = document.getElementById(`s-1`)
-        imagelocation.src = 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/1024px-No_image_available.svg.png'
-        currently.innerHTML = `Sorry, but nothing matched that artist or track name. Please try again with a different artist or track!`
-        currently.hidden = false;
+        // imagelocation.src = 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/1024px-No_image_available.svg.png'
+        error_msg.innerHTML = `Sorry, but nothing matched that artist or track name. Please try again with a different artist or track!`
+        error_msg.hidden = false;
         stopbtn.hidden = true;
+        imagelocation.src = ''
     } else {
         createTile(data);
     }
@@ -51,14 +52,16 @@ const createTile = (data) => {
     originalText = document.getElementById('s-1').onclick
     if (music.tracks.items[0].preview_url == null) {
         imagelocation = document.getElementById(`s-1`)
-        imagelocation.src = 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/1024px-No_image_available.svg.png'
-        currently.innerHTML = `${music.tracks.items[0].artists[0].name} - ${music.tracks.items[0].name} is unavailable due to copyright restrictions`
-        currently.hidden = false;
+        imagelocation.src = ''
+        // imagelocation.src = 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/1024px-No_image_available.svg.png'
+        error_msg.innerHTML = `${music.tracks.items[0].artists[0].name} - ${music.tracks.items[0].name} is unavailable due to copyright restrictions`
+        error_msg.hidden = false;
         selectorgrid.hidden = true;
         document.getElementById(`s-1`).onclick = ''
         stopbtn.hidden = true;
     } else {
         try {
+            error_msg.hidden = true
             image = data.tracks.items[0].album.images[0].url
             imagelocation = document.getElementById(`s-1`)
             imagelocation.src = image
@@ -116,6 +119,7 @@ let music;
 let playing;
 let stopbtn = document.getElementById('stopbtn');
 let currently = document.getElementById('currently');
+let error_msg = document.getElementById('error_msg');
 
 let clickEvent = () => {
     let clicked = music.tracks.items[0].preview_url;
