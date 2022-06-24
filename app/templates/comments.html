@@ -34,24 +34,29 @@
     <h3>Comments</h3>
 </div>
 {% for comment in comments %}
-<div class="container justify-content-center">
-<div class="w3-card-4 w3-margin w3-white" id="commentdisplaybox">
-    <div class="w3-container">
-        <h3><a class="text-dark" href="{{(url_for('user', username=comment.comment_author.username))}}"><img
-                    id="userAvatar" src="{{ comment.comment_author.avatar(34) }}"> {{ comment.comment_author.username
-                }}</a>
+<div class="container justify-content-center" id="commentsview">
+    <div class="row justify-content-center">
+    <div class="w3-card-4 w3-margin w3-white" id="commentdisplaybox">
+        <div class="w3-container">
+            <h3><a class="text-dark" href="{{(url_for('user', username=comment.comment_author.username))}}"><img
+                        id="userAvatar" src="{{ comment.comment_author.avatar(34) }}"> {{
+                    comment.comment_author.username
+                    }}</a>
                 {% if comment.comment_author.id == current_user.id or comment.post_owner.user_id == current_user.id %}
-                <a href="{{(url_for('removeComment', id=comment.id))}}"> <button type="button" class="close" aria-label="Close">
-                    <span style="font-size:26px" aria-hidden="true">&times;</span>
-                  </button></a>
+                <a href="{{(url_for('removeComment', id=comment.id))}}"> <button type="button" class="close"
+                        aria-label="Close">
+                        <span style="font-size:26px" aria-hidden="true">&times;</span>
+                    </button></a>
                 {% endif %}
-        </h3>
-    </div>
-    <div class="w3-container">
-        <div class="row ml-2">{{ comment.body }}</div>
-        <div class="w3-row ">
+            </h3>
         </div>
-        <div id="right" class="column"><span class="w3-opacity">{{ moment(comment.timestamp).fromNow() }}</span></div>
+        <div class="w3-container">
+            <div class="row ml-2">{{ comment.body }}</div>
+            <div class="w3-row ">
+            </div>
+            <div id="right" class="column"><span class="w3-opacity">{{ moment(comment.timestamp).fromNow() }}</span>
+            </div>
+        </div>
     </div>
 </div>
 </div>
@@ -76,14 +81,15 @@
     </div>
     <div class="w3-container">
         <div class="row justify-content-center">
-            <form action="" method="post">
+            <form action="" method="post" id="postbox">
                 {{ comment_form.hidden_tag() }}
                 <p>
                     <br>
+                    <div class="row justify-content-center">
                     {{ comment_form.comment(id="post-form", placeholder="", cols=36, rows=4) }}<br>
                     {% for error in comment_form.comment.errors %}
                     <span style="color: red;">[{{ error }}]</span>
-                    {% endfor %}
+                    {% endfor %}</div>
                 <div class="row" id="post-form-btn">
                     <button class="button-30" role="button">{{ comment_form.submit( id="flask_btn") }}</button>
                 </div>

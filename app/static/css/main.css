@@ -1,3 +1,4 @@
+
 #grid {
     display: grid;
     max-width: 35rem;
@@ -91,9 +92,6 @@ html {
     scroll-behavior: smooth;
 }
 
-#post-form {
-    width: 80vw;
-}
 
 #post-form-btn {
     justify-content: flex-end;
@@ -130,7 +128,7 @@ html {
     padding: 0 7px 0 7px;
     margin-left: 4px;
     margin-bottom: 1px;
-
+    
 }
 
 #backbtn {
@@ -153,6 +151,10 @@ html {
     width: 80vw;
     padding: 1vw;
     margin: 1vw;
+}
+
+#commentsview{
+    justify-content: center;
 }
 
 .dropdown-item {
@@ -181,12 +183,12 @@ html {
     #right {
         font-size: 5px;
     }
-
+    
     #likeslink {
         padding: 1px 5px 0 5px;
         font-size: 12px;
     }
-
+    
     #left {
         margin: 5px 3px 10px 3px;
         font-size: 9px;
@@ -199,11 +201,11 @@ html {
         margin-top: 0;
         padding-top: 10px;
     }
-
+    
     #likeslink {
         padding: 1px 5px 0 5px;
     }
-
+    
     #left {
         margin: 3px 3px 10px 3px;
         font-size: 8px;
@@ -216,16 +218,16 @@ html {
         margin-top: 0;
         padding-top: 4px;
     }
-
+    
     #likeslink {
         padding: 1px 5px 0 5px;
     }
-
+    
     #left {
         margin: 3px 3px 10px 3px;
         font-size: 14px;
     }
-
+    
     #timestamppost {
         font-size: 10px;
     }
@@ -237,17 +239,17 @@ html {
         margin-top: 1vh;
         padding-top: 4px;
     }
-
+    
     #likeslink {
         padding: 1px 5px 0 5px;
     }
-
+    
     #left {
         margin: 3px 3px 10px 3px;
         font-size: 14px;
         margin-top: 1vh;
     }
-
+    
     #searchborder {
         border-radius: 20px;
         width: 80vw;
@@ -262,13 +264,13 @@ html {
     #footer {
         text-align: center;
     }
-
+    
     .col-2 {
         display: inline-block;
         vertical-align: middle;
         float: none;
     }
-
+    
     #icon1 {
         margin-top: 1px;
     }
@@ -283,8 +285,8 @@ html {
 .animate-charcter {
     text-transform: uppercase;
     background-image: linear-gradient(-225deg,
-            #231557 0%,
-            #44107a 29%,
+    #231557 0%,
+    #44107a 29%,
             #ff1361 67%,
             #fff800 100%);
     background-size: auto auto;
@@ -374,22 +376,33 @@ html {
     max-width: 100%;
 }
 
+#postbox{
+    height: 100%;
+    width: 100%;
+    flex: 1;
+}
+
+#post-form {
+    width: 85%;
+    margin-bottom: 2vh;
+}
+
 #navbtns {
     background-image: linear-gradient(to right,
             #54b3d6,
             #54b3d6 50%,
             #000 50%);
-    background-size: 200% 100%;
-    background-position: -100%;
-    display: inline-block;
-    padding: 5px 0;
-    position: relative;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    transition: all 0.3s ease-in-out;
-}
-
-#navbtns:before {
+            background-size: 200% 100%;
+            background-position: -100%;
+            display: inline-block;
+            padding: 5px 0;
+            position: relative;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            transition: all 0.3s ease-in-out;
+        }
+        
+        #navbtns:before {
     content: '';
     background: #ff9191;
     display: block;

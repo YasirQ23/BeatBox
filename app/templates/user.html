@@ -109,14 +109,14 @@
             </div>
             <div class="w3-container">
                 <div class="row justify-content-center">
-                    <form action="" method="post">
+                    <form action="" method="post" id="postbox">
                         {{ post_form.hidden_tag() }}
                         <p>
                             <br>
-                            {{ post_form.post(id="post-form", placeholder="What's happening?", cols=36, rows=4) }}<br>
+                            <div class="row justify-content-center">                            {{ post_form.post(id="post-form", placeholder="What's happening?", cols=36, rows=4) }}<br>
                             {% for error in post_form.post.errors %}
                             <span style="color: red;">[{{ error }}]</span>
-                            {% endfor %}
+                            {% endfor %}</div>
                         <div class="row" id="post-form-btn">
                             <button id="postbtn1" class="button-30" role="button">{{ post_form.submit( id="flask_btn") }}</button>
                         </div>

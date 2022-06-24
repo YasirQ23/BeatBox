@@ -120,7 +120,8 @@ img {
 }
 
 #search-col {
-    flex-grow: 0;
+    width: fit-content;
+    padding: 1em;
 }
 
 #flask_btn {
