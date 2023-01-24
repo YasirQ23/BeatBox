@@ -39,6 +39,7 @@
                     </fieldset>
                 {{ form.submit(id='form-btn') }}
                 <span class="has-separator">Or</span>
+                <a class="password-reset" href="{{ url_for('auth.reset_password_request') }}">Forgot password?</a>
             </form>
             <div class="sign-up">
                 Don't have an account? <a href="{{ url_for('auth.register') }}">Sign up</a>

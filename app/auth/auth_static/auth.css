@@ -39,7 +39,7 @@ body {
 .form-data {
     width: 35rem;
     max-height: 35rem;
-    margin: 1.1rem auto
+    margin: 1rem auto
 }
 
 .form-data form {
@@ -107,7 +107,7 @@ body {
     color: #999999;
     text-transform: uppercase;
     position: relative;
-    margin-bottom: 2.5rem;
+    margin-bottom: .93rem;
 }
 
 .has-separator::before,
