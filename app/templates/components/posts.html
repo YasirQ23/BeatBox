@@ -1,9 +1,9 @@
 <div class="w3-card-4 w3-margin w3-white">
   <div class="w3-container pt-3">
-    <h3><a class="text-dark" href="{{(url_for('user', username=post.author.username))}}"><img id="userAvatar"
+    <h3><a class="text-dark" href="{{(url_for('main.user', username=post.author.username))}}"><img id="userAvatar"
           src="{{ post.author.avatar(34) }}"> {{ post.author.username }}</a>
       {% if post.author.id == current_user.id or post.location_id == current_user.id %}
-      <a href="{{(url_for('removePost', id=post.id))}}"> <button type="button" class="close" aria-label="Close">
+      <a href="{{(url_for('main.removePost', id=post.id))}}"> <button type="button" class="close" aria-label="Close">
           <span style="font-size:26px" aria-hidden="true">&times;</span>
         </button></a>
       {% endif %}
@@ -14,20 +14,20 @@
     <div class="w3-row ">
       <div id="left" class="column vertical-center"><b>
           {% if post.id in liked_posts or current_user.id in likers_id%}
-          <a href="{{(url_for('likePost', id=post.id))}}"><i id="hearticon" class="fa-solid fa-heart" style="font-size:22px" ></i> </a>
+          <a href="{{(url_for('main.likePost', id=post.id))}}"><i id="hearticon" class="fa-solid fa-heart" style="font-size:22px" ></i> </a>
           {% else %}
-          <a href="{{(url_for('likePost', id=post.id))}}"><i id="hearticon" class="fa-regular fa-heart" style="font-size:22px"></i></a>
+          <a href="{{(url_for('main.likePost', id=post.id))}}"><i id="hearticon" class="fa-regular fa-heart" style="font-size:22px"></i></a>
           {% endif %}
-        </b><span id="likeslink"><a style="color:white" href="{{(url_for('postLikes', id=post.id))}}">{{ post.likes }} like{% if post.likes != 1 %}s{% endif %}</a></span></div>
+        </b><span id="likeslink"><a style="color:white" href="{{(url_for('main.postLikes', id=post.id))}}">{{ post.likes }} like{% if post.likes != 1 %}s{% endif %}</a></span></div>
         <div id="left" class="column vertical-center"><b>
-          <a href="{{(url_for('postComments', id=post.id))}}">
+          <a href="{{(url_for('main.postComments', id=post.id))}}">
             {% if post.comments == 0 %}
             <i id="hearticon" class="fa-regular fa-comment" style="font-size:22px"></i>
             {% else %}
             <i id="hearticon" class="fa fa-comment" aria-hidden="true" style="font-size:22px"></i>
             {% endif %}
           </a>
-        </b><span id="likeslink"><a style="color:white" href="{{(url_for('postComments', id=post.id))}}">{{ post.comments }} comment{% if post.comments != 1 %}s{% endif %}</a></span></div>
+        </b><span id="likeslink"><a style="color:white" href="{{(url_for('main.postComments', id=post.id))}}">{{ post.comments }} comment{% if post.comments != 1 %}s{% endif %}</a></span></div>
       <div id="right" class="column"><span id="timestamppost" class="w3-opacity">{{ moment(post.timestamp).fromNow() }}</span></div>
     </div>
   </div>

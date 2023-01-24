@@ -1,0 +1,72 @@
+{% extends 'auth/base.html' %}
+
+{% block title %} Register {% endblock title %}
+
+{% block content %}
+<div class="wrapper" id="resgisterbox">
+  <div class="container justify-content-center">
+    <div class="form-data">
+      <div class="container-fluid d-flex justify-content-center">
+        {% with messages = get_flashed_messages(with_categories=true) %} {% if
+        messages %} {% for category, message in messages %}
+        <div
+          class="alert alert-{{ category }} alert-dismissible fade show"
+          role="alert"
+        >
+          {{ message }}
+          <button
+            type="button"
+            class="close"
+            data-dismiss="alert"
+            aria-label="Close"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        {% endfor %} {% endif %} {% endwith %}
+      </div>
+      <form method="POST">
+        {{ form.hidden_tag() }}
+        <div class="logo">
+          <div class="row">
+            <div class="col-md-12 text-center">
+              <h3 class="animate-charcter">
+                Beat <span class="bi bi-soundwave"></span> Box
+              </h3>
+            </div>
+          </div>
+          <h4 class="text-secondary">
+            Sign up to see music grids and posts from your friends.
+          </h4>
+        </div>
+        <fieldset>{{ form.email(tag='input', placeholder='Email') }}</fieldset>
+        <fieldset>
+          {{ form.username(tag='input', placeholder='Username') }}
+        </fieldset>
+        <fieldset>
+          {{ form.first_name(tag='input', placeholder='First Name') }}
+        </fieldset>
+        <fieldset>
+          {{ form.last_name(tag='input', placeholder='Last Name') }}
+        </fieldset>
+        <fieldset>
+          {{ form.password(tag='input', placeholder='Password') }}
+        </fieldset>
+        <fieldset>
+          {{ form.confirm_password(tag='input', placeholder='Confirm Password')
+          }}
+        </fieldset>
+        <h5 class="text-muted">
+          By signing up, you agree to our Terms , Data Policy and Cookies
+          Policy.
+        </h5>
+        {{ form.submit(id='form-btn') }}
+      </form>
+      <div class="sign-up">
+        Have an account? <a href="{{ url_for('auth.login') }}">Log in</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock content %}

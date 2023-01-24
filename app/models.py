@@ -1,21 +1,12 @@
-
-from werkzeug.security import generate_password_hash
 from uuid import uuid4
 from datetime import datetime
-from flask_login import LoginManager, UserMixin, current_user
-from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy.orm import relationship, backref
 from hashlib import md5
-
-db = SQLAlchemy()
-
-
-login = LoginManager()
-
-
-@login.user_loader
-def load_user(userid):
-    return User.query.get(userid)
+from time import time
+from flask import current_app
+from flask_login import UserMixin
+from werkzeug.security import generate_password_hash
+import jwt
+from app import db, login
 
 
 followers = db.Table('followers',
@@ -39,7 +30,8 @@ class User(db.Model, UserMixin):
     grid = db.relationship('Grid', backref='user', lazy=True)
     posts = db.relationship('Post', backref='author', lazy='dynamic')
     likes = db.relationship('Likes', backref='liker', lazy='dynamic')
-    comments = db.relationship('Comment', backref='comment_author', lazy='dynamic')
+    comments = db.relationship(
+        'Comment', backref='comment_author', lazy='dynamic')
     followed = db.relationship(
         'User', secondary=followers,
         primaryjoin=(followers.c.follower_id == id),
@@ -78,6 +70,28 @@ class User(db.Model, UserMixin):
                 followers.c.follower_id == self.id)
         own = Post.query.filter_by(user_id=self.id)
         return followed.union(own).order_by(Post.timestamp.desc())
+
+    def set_password(self, password):
+        self.password = generate_password_hash(password)
+
+    def get_reset_password_token(self, expires_in=600):
+        return jwt.encode(
+            {'reset_password': self.id, 'exp': time() + expires_in},
+            current_app.config['SECRET_KEY'], algorithm='HS256')
+
+    @staticmethod
+    def verify_reset_password_token(token):
+        try:
+            id = jwt.decode(token, current_app.config['SECRET_KEY'],
+                            algorithms=['HS256'])['reset_password']
+        except:
+            return
+        return User.query.get(id)
+
+
+@login.user_loader
+def load_user(userid):
+    return User.query.get(userid)
 
 
 class Grid(db.Model, UserMixin):
@@ -133,6 +147,7 @@ class Likes(db.Model, UserMixin):
         self.id = str(uuid4())
         self.user_id = user_id
         self.post_id = post_id
+
 
 class Comment(db.Model, UserMixin):
     id = db.Column(db.String(40), primary_key=True)

@@ -34,7 +34,7 @@
     {% for user in likers %}
     <div id="usercard" class="w3-card-4 w3-white justify-content-center">
         <div class="w3-container justify-content-center">
-            <a class="button" style="color: black;" href="{{(url_for('user', username=user.username))}}"><img id="userAvatar"
+            <a class="button" style="color: black;" href="{{(url_for('main.user', username=user.username))}}"><img id="userAvatar"
                     src="{{ user.avatar(34) }}"> {{ user.username
                 }}</a>
         </div>

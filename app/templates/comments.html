@@ -38,12 +38,12 @@
     <div class="row justify-content-center">
     <div class="w3-card-4 w3-margin w3-white" id="commentdisplaybox">
         <div class="w3-container">
-            <h3><a class="text-dark" href="{{(url_for('user', username=comment.comment_author.username))}}"><img
+            <h3><a class="text-dark" href="{{(url_for('main.user', username=comment.comment_author.username))}}"><img
                         id="userAvatar" src="{{ comment.comment_author.avatar(34) }}"> {{
                     comment.comment_author.username
                     }}</a>
                 {% if comment.comment_author.id == current_user.id or comment.post_owner.user_id == current_user.id %}
-                <a href="{{(url_for('removeComment', id=comment.id))}}"> <button type="button" class="close"
+                <a href="{{(url_for('main.removeComment', id=comment.id))}}"> <button type="button" class="close"
                         aria-label="Close">
                         <span style="font-size:26px" aria-hidden="true">&times;</span>
                     </button></a>

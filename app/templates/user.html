@@ -36,24 +36,24 @@
         {% if user.last_seen %}<p><span class="w3-tag">Last seen on: {{ moment(user.last_seen).format('LLL') }}</span></p>{% endif %}
         <div class="row justify-content-center">
             <div class="dropdown">
-                <a href="{{(url_for('viewFollows', username=user.username,listname='followers'))}}" class="btn" type="button" id="dropdownMenuButton" aria-expanded="false">{{ user.followers.count() }}  Followers</a>
+                <a href="{{(url_for('main.viewFollows', username=user.username,listname='followers'))}}" class="btn" type="button" id="dropdownMenuButton" aria-expanded="false">{{ user.followers.count() }}  Followers</a>
             </div>
             <div class="dropdown">
-                <a href="{{(url_for('viewFollows', username=user.username,listname='following'))}}" class="btn" type="button" id="dropdownMenuButton" aria-expanded="false">Following  {{ user.followed.count() }}</a>
+                <a href="{{(url_for('main.viewFollows', username=user.username,listname='following'))}}" class="btn" type="button" id="dropdownMenuButton" aria-expanded="false">Following  {{ user.followed.count() }}</a>
             </div>
         </div>
         {% if user == current_user %}
-        <p><a href="{{ url_for('profile_editor') }}" style="color:black">Edit your profile</a></p>
+        <p><a href="{{ url_for('main.profile_editor') }}" style="color:black">Edit your profile</a></p>
         {% elif not current_user.is_following(user) %}
         <p>
-        <form action="{{ url_for('follow', username=user.username) }}" method="post">
+        <form action="{{ url_for('main.follow', username=user.username) }}" method="post">
             {{ follow_form.hidden_tag() }}
             <button class="button-30" role="button">{{ follow_form.submit( id="flask_btn", value='Follow') }}</button>
         </form>
         </p>
         {% else %}
         <p>
-        <form action="{{ url_for('unfollow', username=user.username) }}" method="post">
+        <form action="{{ url_for('main.unfollow', username=user.username) }}" method="post">
             {{ follow_form.hidden_tag() }}
             <button class="button-30" role="button">{{ follow_form.submit( id="flask_btn", value='Unfollow') }}</button>
         </form>
