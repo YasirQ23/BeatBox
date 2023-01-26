@@ -42,7 +42,7 @@ def user(username):
     pg_owner = User.query.filter_by(username=username).first()
     page = request.args.get('page', 1, type=int)
     posts = Post.query.filter_by(location_id=pg_owner.id).order_by(Post.timestamp.desc()).paginate(
-        page, current_app.config['POSTS_PER_PAGE'], False)
+        page=page, per_page=current_app.config['POSTS_PER_PAGE'], error_out=False)
     next_url = url_for('main.user', username=current_user.username, page=posts.next_num) \
         if posts.has_next else None
     prev_url = url_for('main.user', username=current_user.username, page=posts.prev_num) \
@@ -129,7 +129,7 @@ def explore():
     user = User.query.filter_by(username=current_user.username).first_or_404()
     page = request.args.get('page', 1, type=int)
     posts = Post.query.order_by(Post.timestamp.desc()).paginate(
-        page, current_app.config['POSTS_PER_PAGE'], False)
+        page=page, per_page=current_app.config['POSTS_PER_PAGE'], error_out=False)
     next_url = url_for('main.explore', page=posts.next_num) \
         if posts.has_next else None
     prev_url = url_for('main.explore', page=posts.prev_num) \
@@ -159,7 +159,7 @@ def following():
     user = User.query.filter_by(username=current_user.username).first_or_404()
     page = request.args.get('page', 1, type=int)
     posts = current_user.followed_posts().paginate(
-        page, current_app.config['POSTS_PER_PAGE'], False)
+        page=page, per_page=current_app.config['POSTS_PER_PAGE'], error_out=False)
     next_url = url_for('main.following', page=posts.next_num) \
         if posts.has_next else None
     prev_url = url_for('main.following', page=posts.prev_num) \
@@ -248,7 +248,7 @@ def postComments(id):
         post_id=post[0].id).order_by(Comment.timestamp.desc())
     page = request.args.get('page', 1, type=int)
     comments = Comment.query.filter_by(post_id=post[0].id).order_by(Comment.timestamp.desc()).paginate(
-        page, current_app.config['POSTS_PER_PAGE'], False)
+        page=page, per_page=current_app.config['POSTS_PER_PAGE'], error_out=False)
     next_url = url_for('main.postComments', id=id, page=comments.next_num) \
         if comments.has_next else None
     prev_url = url_for('main.postComments', id=id, page=comments.prev_num) \
